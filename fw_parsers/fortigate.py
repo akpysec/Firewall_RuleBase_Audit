@@ -4,7 +4,7 @@ from engine import check_engine
 from engine.check_engine import FIELDS
 
 
-def files_reader(path_to_files: str, file_extension: str, encoding_files="windows-1256"):
+def files_reader(path_to_files: str, file_extension: str, encoding_files: str):
     """ I - Checking input and looking for files with .csv extension """
     _path_to_files = []
     if len(path_to_files) >= 1:
