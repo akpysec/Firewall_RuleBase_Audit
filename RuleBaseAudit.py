@@ -3,6 +3,8 @@ from engine.check_engine import any_srv, any_dst, any_src, disabled, track, wors
 import argparse
 
 parser = argparse.ArgumentParser()
+
+# Creating flags
 parser.add_argument('-P', '--path',
                     required=True,
                     default=None,
@@ -47,7 +49,7 @@ if args.rule_base_provider == 'fortigate':
                 )
             )
         )
-    ).to_csv("C:\\Users\\andreyk\\PycharmProjects\\RuleBaseAudit\\any_source.csv")
+    ).to_csv(f"{args.path}\\any_source.csv")
 
 elif args.rule_base_provider == 'tufin':
     any_src(
@@ -56,6 +58,6 @@ elif args.rule_base_provider == 'tufin':
             file_extension=args.file_extension,
             encoding_files=args.encoding
         )
-    ).to_csv("C:\\Users\\andreyk\\PycharmProjects\\RuleBaseAudit\\any_source.csv")
+    ).to_csv(f"{args.path}\\any_source.csv")
 
 
