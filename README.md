@@ -6,7 +6,7 @@
 
 ## Description
 
-Rule Base Audit was designed by security me AKPySec aka Andrey Kolihanov. It is meant to provide a security-oriented view of the IPv4 Rule Bases from various type firewalls (Tufin, FortiGate, Palo-Alto, Checkpoint & More). Once consultant exported IPV4 policy in .csv or .txt format, all auditing checks may be performed offline.
+I designed Rule Base Audit to provide a security-oriented view of the IPv4 Rule Base from different vendors and Firewall types (Tufin, FortiGate, Palo-Alto, Checkpoint & More). Once consultant exported IPV4 policy in .csv or .txt format, all auditing checks may be performed offline.
 
 Contact me via <akpysec@gmail.com>.
 
