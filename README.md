@@ -20,14 +20,25 @@ Currently the following checks are supported:
 - Crossed rules (Two-way rules)
 - Worst rules (rules with multiple findings)
 
+## Installation
+### Via Git
+
+    $ git clone https://github.com/akpysec/Firewall_RuleBase_Audit
+    $ cd Firewall_RuleBase_Audit
+    $ virtualenv -p python3 venv
+    $ source venv/bin/activate
+    $ pip install -r requirements.txt
+    $ python RuleBaseAudit.py --help
+
+
 ## Usage
 
 Rule Base Audit is run through the CLI:
 
     // For FortiGate IPv4 Policy
-    python3 RuleBaseAudit.py --path /path/to/folder/with/file --file-extension txt --fw-vendor fortigate
+    python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension txt --fw-vendor fortigate
     // For Tufin exported csv files
-    python3 RuleBaseAudit.py --path /path/to/folder/with/files --file-extension csv --fw-vendor tufin
+    python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension csv --fw-vendor tufin
 
 [comment]: <> (![Running Rule Base Audit]&#40;https://user-images.githubusercontent.com/להשלים.gif&#41;)
 

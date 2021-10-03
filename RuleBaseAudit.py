@@ -19,6 +19,11 @@ must_have_args = [
     '--fw-vendor'
 ]
 
+optional_args = [
+    '--help',
+    '--encoding-files'
+]
+
 for args in must_have_args:
     if args not in arguments:
         print(f'Missing argument "{args}"')
