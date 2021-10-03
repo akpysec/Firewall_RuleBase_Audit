@@ -59,10 +59,3 @@ def files_reader_and_parser(path_to_files: str, file_extension: str, encoding_fi
 
         return df
 
-
-# print(check_engine.any_src(
-#     dataframe=files_reader_and_parser(
-#         path_to_files="K:\\Skarim\\Harel\\Psagot\\FW\\",
-#         # path_to_files="C:\\Path\\to\\files\\folder",
-#         file_extension="CSV"
-#     )))

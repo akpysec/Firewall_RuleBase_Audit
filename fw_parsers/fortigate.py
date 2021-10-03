@@ -152,14 +152,3 @@ def create_df(rule_base_as_nested_dict: dict):
         increment += 1
 
     return df
-
-
-# print(check_engine.worst(create_df(
-#     rule_base_as_nested_dict=rule_base_parsing(
-#         raw_dataframe=files_reader(
-#             path_to_files="C:\\Users\\andreyk\\PycharmProjects\\Tests",
-#             # path_to_files="C:\\Path\\to\\files\\folder",
-#             file_extension="txt"
-#         )))))
-
-
