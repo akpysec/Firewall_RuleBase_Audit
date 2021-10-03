@@ -24,9 +24,9 @@ optional_args = [
     '--encoding-files'
 ]
 
-for args in must_have_args:
-    if args not in arguments:
-        print(f'Missing argument "{args}"')
+for m_args, o_args in zip(must_have_args, optional_args):
+    if m_args not in arguments:
+        print(f'Missing argument "{m_args}"')
     else:
         if arguments[6] == 'fortigate':
             for check in checks_functions:
@@ -42,3 +42,11 @@ for args in must_have_args:
                     file_extension=arguments[4]
                 )
                 )
+    if o_args == optional_args[0]:
+        print('Required arguments:\n')
+        print(must_have_args[0], '\tchoose path to folder with exported IPv4 policies')
+        print(must_have_args[1], '\tchoose right extension of a file "txt/csv"')
+        print(must_have_args[2], '\tchoose firewall vendor')
+        print('Optional arguments:\n')
+        print(optional_args[0], '\thelp - present options')
+        print(optional_args[1], '\tselect encoding for csv')
