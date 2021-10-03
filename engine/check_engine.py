@@ -37,8 +37,6 @@ def disabled(dataframe: pd.DataFrame):
         # Dropping empty columns
         disabled_rules.dropna(how='all', axis=1, inplace=True)
 
-        disabled_rules.to_csv("K:\\Skarim\\Harel\\Psagot\\FW\\disabled_rules.csv")
-
         return disabled_rules
 
     elif dataframe.empty:
@@ -56,8 +54,6 @@ def track(dataframe: pd.DataFrame):
 
         # Dropping empty columns
         track_log.dropna(how='all', axis=1, inplace=True)
-
-        track_log.to_csv("K:\\Skarim\\Harel\\Psagot\\FW\\no_log_rules.csv")
 
         return track_log
 
@@ -85,8 +81,6 @@ def any_src(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
-        dataframe.to_csv("K:\\Skarim\\Harel\\Psagot\\FW\\any_source_rules.csv")
-
         return dataframe
 
 
@@ -108,8 +102,6 @@ def any_dst(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
-        dataframe.to_csv("K:\\Skarim\\Harel\\Psagot\\FW\\any_destination_rules.csv")
-
         return dataframe
 
 
@@ -131,8 +123,6 @@ def any_srv(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
-        dataframe.to_csv("K:\\Skarim\\Harel\\Psagot\\FW\\any_service_rules.csv")
-
         return dataframe
 
 
@@ -161,8 +151,6 @@ def worst(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
-        dataframe.to_csv("K:\\Skarim\\Harel\\Psagot\\FW\\worst_rules.csv")
-
         return dataframe
 
 

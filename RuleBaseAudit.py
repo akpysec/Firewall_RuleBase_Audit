@@ -1,12 +1,5 @@
 import sys
 from fw_parsers import fortigate, tufin
-from engine import check_engine
-
-print('*' * 12)
-print('How to run:')
-print('*' * 12)
-print('.\\python RuleBaseAudit.py --path "Disk:\\Path\\to\\files\\folder" --file-extension "csv or txt" --fw-vendor "tufin or fortigate"')
-print('-' * 88)
 
 arguments = sys.argv
 
