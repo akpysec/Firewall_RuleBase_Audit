@@ -152,3 +152,4 @@ def create_df(rule_base_as_nested_dict: dict):
         increment += 1
 
     return df
+
