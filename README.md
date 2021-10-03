@@ -36,9 +36,9 @@ Currently the following checks are supported:
 Rule Base Audit is run through the CLI:
 
     // For FortiGate IPv4 Policy
-    python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension txt --fw-vendor fortigate
+    $ python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension txt --fw-vendor fortigate
     // For Tufin exported csv files
-    python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension csv --fw-vendor tufin
+    $ python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension csv --fw-vendor tufin
 
 [comment]: <> (![Running Rule Base Audit]&#40;https://user-images.githubusercontent.com/להשלים.gif&#41;)
 
