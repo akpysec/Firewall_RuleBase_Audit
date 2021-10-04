@@ -147,7 +147,7 @@ def create_df(rule_base_as_nested_dict: dict):
     pd.set_option('mode.chained_assignment', None)
 
     # Splitting multiple values from df[series] for check convenience
-    increment = 0
+    increment = 2
     while increment <= 4:
         df[FIELDS[increment]].update(df[FIELDS[increment]].str.split())
         increment += 1

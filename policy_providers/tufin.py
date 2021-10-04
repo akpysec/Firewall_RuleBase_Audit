@@ -48,15 +48,11 @@ def files_reader_and_parser(path_to_files: str, file_extension: str, encoding_fi
         # Removing duplicate Rules from a DataFrame
         df = df.drop_duplicates(subset=FIELDS[9], keep='first')
 
-        # Splitting multiple values from df[series] for check convenience
-        increment = 0
+        # Splitting multiple values from df[series] - src, dst, srv for check convenience
+        increment = 2
 
-        # Continue from here:
-        # AttributeError: Can only use .str accessor with string values!
-        # Find out why not a str
+        # print(df[FIELDS[4]].str.split('\n'))
         while increment <= 5:
-            # if not isinstance(df[FIELDS[increment]], int):
-            #     print(df[FIELDS[increment]])
             df[FIELDS[increment]].update(df[FIELDS[increment]].str.split('\n'))
             increment += 1
 
@@ -65,7 +61,7 @@ def files_reader_and_parser(path_to_files: str, file_extension: str, encoding_fi
             data_series=df[FIELDS[7]],
             change_from='accept',
             change_to='allow')
-        print(df['source'])
+
         # Adding numeric indexes
         df = df.reset_index()
 

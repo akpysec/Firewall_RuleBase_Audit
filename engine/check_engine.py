@@ -65,9 +65,6 @@ def track(dataframe: pd.DataFrame):
 
 def any_src(dataframe: pd.DataFrame):
     rows_ids = list()
-    if not isinstance(dataframe['source'], str):
-        print(dataframe['source'])
-
     if not dataframe.empty:
         for row_id, status, action, source in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[2]]):
             if status != 'disabled' and action == 'allow':
