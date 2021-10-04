@@ -95,7 +95,7 @@ def create_df(rule_base_as_nested_dict: dict):
         'set status': 'rule status',
         'set service': 'service',
         'set logtraffic': 'track',
-        # 'set application-list': 'Application Identity',
+        'set application-list': 'application identity',
         'set groups': 'source user',
         'set comments': 'comment'
     },

@@ -45,8 +45,9 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
 
 Rule Base Audit is run through the CLI:
 
-    $ python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension txt --fw-vendor fortigate
-    $ python3 RuleBaseAudit.py --path /path/to/folder/with/file-s --file-extension csv --fw-vendor tufin
+    $ python3 RuleBaseAudit.py --path /path/to/folder/with/file/s --file-extension txt --rule-base-provider fortigate
+    OR
+    $ python3 RuleBaseAudit.py -P /path/to/folder/with/file/s -F csv -R tufin
 
 #### Add HERE GIF - later
 

@@ -1,4 +1,4 @@
-from fw_parsers import fortigate, tufin
+from policy_providers import fortigate, tufin
 from engine.check_engine import any_srv, any_dst, any_src, disabled, track, worst
 from engine.cli_flags import args
 
@@ -23,5 +23,4 @@ elif args.rule_base_provider == 'tufin':
             encoding_files=args.encoding
         )
     ).to_csv(f"{args.path}\\any_source.csv")
-
 
