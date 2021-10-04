@@ -19,18 +19,18 @@ parser.add_argument('-F', '--file-extension',
                     type=str
                     )
 
-parser.add_argument('-R', '--rule-base-provider',
+parser.add_argument('-R', '--policy-provider',
                     required=True,
                     default=None,
-                    dest='rule_base_provider',
-                    help='Provide a Firewall rule base provider name (Tufin, Checkpoint, Palo-Alto, FortiGate)',
+                    dest='policy_provider',
+                    help='Provide a Firewall rule base provider name - tufin | checkpoint | palo-alto | fortigate',
                     type=str
                     )
 
 parser.add_argument('-E', '--encoding',
                     default='windows-1256',
                     dest='encoding',
-                    help='Provide a file/s encoding',
+                    help='Provide a file/s encoding (default is "windows-1256")',
                     type=str
                     )
 
