@@ -50,10 +50,22 @@ def files_reader_and_parser(path_to_files: str, file_extension: str, encoding_fi
 
         # Splitting multiple values from df[series] for check convenience
         increment = 0
+
+        # Continue from here:
+        # AttributeError: Can only use .str accessor with string values!
+        # Find out why not a str
         while increment <= 5:
+            # if not isinstance(df[FIELDS[increment]], int):
+            #     print(df[FIELDS[increment]])
             df[FIELDS[increment]].update(df[FIELDS[increment]].str.split('\n'))
             increment += 1
 
+        # Action field
+        df[FIELDS[7]] = check_engine.convert_to_single_convention(
+            data_series=df[FIELDS[7]],
+            change_from='accept',
+            change_to='allow')
+        print(df['source'])
         # Adding numeric indexes
         df = df.reset_index()
 

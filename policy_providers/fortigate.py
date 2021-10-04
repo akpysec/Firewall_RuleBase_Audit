@@ -43,6 +43,7 @@ def rule_base_parsing(raw_dataframe: pd.DataFrame):
     # Formatting the values and creating a dictionary
     # Check it out another Walrus :=
     while (increment := increment + 1) <= -1 + len(edit):
+        # if isinstance(_next[increment][1][1], str):
         rule_base_dictionary[
             enumerated_rules[edit[increment] - 1:_next[increment]][1][1].lstrip().strip('\n')] = [
             enumerated_rules[edit[increment]:_next[increment]][1:]
