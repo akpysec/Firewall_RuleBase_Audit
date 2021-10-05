@@ -17,7 +17,7 @@ from policy_providers import fortigate, tufin
 # )
 
 print(
-    check_engine.worst(
+    check_engine.crossed(
         dataframe=tufin.files_reader_and_parser(
             path_to_files="C:\\Users\\andreyk\\PycharmProjects\\Tests\\tufin_reports\\test_csv_1",
             # path_to_files="K:\\Skarim\\Harel\\Psagot\\FW",

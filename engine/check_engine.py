@@ -155,4 +155,195 @@ def worst(dataframe: pd.DataFrame):
 
 
 def crossed(dataframe: pd.DataFrame):
-    return
+    rows_ids = list()
+    first_increment = 0
+    second_increment = 1
+    total_data = list()
+    if not dataframe.empty:
+        for row_id, status, action, src_zone, dst_zone, src, dst, srv in zip(
+            dataframe.index,
+            dataframe[FIELDS[6]],
+            dataframe[FIELDS[7]],
+            dataframe[FIELDS[0]],
+            dataframe[FIELDS[1]],
+            dataframe[FIELDS[2]],
+            dataframe[FIELDS[3]],
+            dataframe[FIELDS[4]],
+    ):
+
+            crossed_conditions = dataframe.loc[
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'accept') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dst) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[3]] == src) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dataframe[FIELDS[1]]) &
+                (dataframe[FIELDS[1]] == dataframe[FIELDS[0]]) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                |
+                (dataframe[FIELDS[0]] == dst_zone) &
+                (dataframe[FIELDS[1]] == src_zone) &
+                (dataframe[FIELDS[2]] == dataframe[FIELDS[3]]) &
+                (dataframe[FIELDS[3]] == dataframe[FIELDS[2]]) &
+                (dataframe[FIELDS[4]] == srv) &
+                (dataframe[FIELDS[7]] == 'allow') &
+                (dataframe[FIELDS[6]] != 'disabled')
+                ]
+
+            if not crossed_conditions.empty:
+                for idx, row_enum in crossed_conditions.iterrows():
+                    crossed_list.append(row_enum.str.lower())
+                else:
+                    pass
+
+        if crossed_list:
+            # Appending iterated data to a DataFrame
+            crossed_frame = pd.DataFrame(crossed_list)
+            # Dropping empty columns
+            crossed_frame.dropna(how='all', axis=1, inplace=True)
+            # Dropping duplicate values based upon rule ID
+            crossed_frame = crossed_frame.drop_duplicates(subset=FIELDS[9], keep="first")
+            # Sorting based on service
+            crossed_frame = crossed_frame.sort_values(FIELDS[4])
+            return crossed_frame
+    # elif dataframe.empty:
+    #     print("DataFrame is Empty")
+    # else:
+    #     print("Something else happened")
+    #
+    # # Selecting range of indexes of findings
+    # dataframe = dataframe.iloc[rows_ids, 0:]
+    #
+    # if not dataframe.empty:
+    #     return dataframe
