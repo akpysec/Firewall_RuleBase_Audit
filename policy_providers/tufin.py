@@ -51,7 +51,7 @@ def files_reader_and_parser(path_to_files: str, file_extension: str, encoding_fi
         # Splitting multiple values from df[series] - src, dst, srv for check convenience
         increment = 2
 
-        # print(df[FIELDS[4]].str.split('\n'))
+        # May cause an error if cell is not string - more attention needed later
         while increment <= 5:
             df[FIELDS[increment]].update(df[FIELDS[increment]].str.split('\n'))
             increment += 1
