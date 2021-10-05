@@ -15,7 +15,7 @@ from policy_providers import fortigate, tufin
 #         )
 #     )
 # )
-#
+
 print(
     check_engine.worst(
         dataframe=tufin.files_reader_and_parser(
