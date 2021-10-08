@@ -157,8 +157,11 @@ def worst_rules(dataframe: pd.DataFrame):
 def crossed_rules(dataframe: pd.DataFrame):
 
     crossed = pd.DataFrame(columns=dataframe.columns)
-    # Needs reverse - cross check - for now only one way
+    # Maybe needs reverse - cross check: DO MORE TESTING
     if not dataframe.empty:
+
+        crossing_middle = pd.DataFrame(columns=dataframe.columns)
+
         for i, ii , fz, tz, a, b, c, d in zip(
             dataframe.iloc[0:]['index'],
             dataframe.iloc[1:]['index'],
@@ -170,11 +173,15 @@ def crossed_rules(dataframe: pd.DataFrame):
             dataframe.iloc[1:]['service']
         ):
             src_dst = list(set(a).intersection(set(b)))
-            from_to_zone = list(set(fz).intersection(set(tz)))
+
+            # from_to_zone = list(set(fz).intersection(set(tz)))
+            # print(list(filter(None, [fz, tz])))
+            # print(from_to_zone)
             if src_dst:
+                # Service comparing
                 if c == d:
                     # print(i, a, ii, b, c, d)
                     # print(i, src_dst, c, d)
-                    crossed = crossed.append(dataframe.iloc[[i, ii]])
+                    crossing_middle = crossing_middle.append(dataframe.iloc[[i, ii]])
 
-    return crossed
+        return crossing_middle

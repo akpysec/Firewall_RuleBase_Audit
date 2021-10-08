@@ -49,9 +49,9 @@ if yours differs I would like to know!
 
 Rule Base Audit is run through the CLI:
 
-    $ python3 RuleBaseAudit.py --path /path/to/folder/with/file/s --file-extension txt --rule-base-provider fortigate
+    $ python3 Firewall_RuleBase_Audit --path /path/to/folder/with/file/s --file-extension txt --rule-base-provider fortigate
     OR
-    $ python3 RuleBaseAudit.py -P /path/to/folder/with/file/s -F csv -R tufin
+    $ python3 Firewall_RuleBase_Audit -P /path/to/folder/with/file/s -F csv -R tufin
 
 #### Add HERE GIF - later
 

@@ -65,5 +65,8 @@ def files_reader_and_parser(path_to_files: str, file_extension: str, encoding_fi
         # Adding numeric indexes
         df = df.reset_index()
 
+        # Filling all 'nan' values
+        df.fillna('', inplace=True)
+
         return df
 

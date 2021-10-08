@@ -153,5 +153,8 @@ def create_df(rule_base_as_nested_dict: dict):
         df[FIELDS[increment]].update(df[FIELDS[increment]].str.split())
         increment += 1
 
+    # Filling all 'nan' values
+    df.fillna('', inplace=True)
+
     return df
 

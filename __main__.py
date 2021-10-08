@@ -2,6 +2,13 @@ from policy_providers import fortigate, tufin
 from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
+import colored
+from colored import fg, bg, attr, stylize
+
+
+BOLD_RED = colored.fg("red") + colored.attr("bold")
+BOLD_GREEN = colored.fg("green") + colored.attr("bold")
+BOLD_ORANGE = colored.fg("dark_orange_3a") + colored.attr("bold")
 
 checks = [
     any_srv, any_dst, any_src, disabled, track_logs, worst_rules
@@ -22,12 +29,13 @@ for check in checks:
             )
         )
         if forti is not None:
-            print(f'{check.__name__} \tFINDING')
+            print(stylize(f'{check.__name__} \tFINDING', BOLD_RED))
             forti.to_csv(f"{args.path}\\{check.__name__}.csv")
         elif forti is None:
-            print(f"{check.__name__} \tPASS")
+            print(stylize(f"{check.__name__} \tPASS", BOLD_GREEN))
         else:
-            print("Something else happened")
+            print(stylize("Something else happened", BOLD_ORANGE))
+
     elif args.policy_provider == 'tufin':
         tufi = check(
             dataframe=tufin.files_reader_and_parser(
@@ -37,12 +45,12 @@ for check in checks:
             )
         )
         if tufi is not None:
-            print(f'{check.__name__} \tFINDING')
+            print(stylize(f'{check.__name__} \tFINDING', BOLD_RED))
             tufi.to_csv(f"{args.path}\\{check.__name__}.csv")
         elif tufi is None:
-            print(f"{check.__name__} \tPASS")
+            print(stylize(f"{check.__name__} \tPASS", BOLD_GREEN))
         else:
-            print("Something else happened")
+            print(stylize("Something else happened", BOLD_ORANGE))
 
 # # For later
 # if args.bar_chart:
