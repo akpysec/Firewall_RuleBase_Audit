@@ -1,10 +1,10 @@
 from policy_providers import fortigate, tufin
-from engine.check_engine import any_srv, any_dst, any_src, disabled, track, worst
+from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
 
 checks = [
-    any_srv, any_dst, any_src, disabled, track, worst
+    any_srv, any_dst, any_src, disabled, track_logs, worst_rules
 ]
 
 for check in checks:
@@ -22,9 +22,10 @@ for check in checks:
             )
         )
         if forti is not None:
+            print(f'{check.__name__} \tFINDING')
             forti.to_csv(f"{args.path}\\{check.__name__}.csv")
         elif forti is None:
-            print(f"{check.__name__} - Nothing Found")
+            print(f"{check.__name__} \tPASS")
         else:
             print("Something else happened")
     elif args.policy_provider == 'tufin':
@@ -36,9 +37,10 @@ for check in checks:
             )
         )
         if tufi is not None:
+            print(f'{check.__name__} \tFINDING')
             tufi.to_csv(f"{args.path}\\{check.__name__}.csv")
         elif tufi is None:
-            print(f"{check.__name__} - Nothing Found")
+            print(f"{check.__name__} \tPASS")
         else:
             print("Something else happened")
 

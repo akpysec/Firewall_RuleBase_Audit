@@ -45,7 +45,7 @@ def disabled(dataframe: pd.DataFrame):
         print("Something else happened")
 
 
-def track(dataframe: pd.DataFrame):
+def track_logs(dataframe: pd.DataFrame):
     if not dataframe.empty:
         track_log = dataframe.loc[
             (dataframe[FIELDS[6]] != 'disabled') &
@@ -126,7 +126,7 @@ def any_srv(dataframe: pd.DataFrame):
         return dataframe
 
 
-def worst(dataframe: pd.DataFrame):
+def worst_rules(dataframe: pd.DataFrame):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, source, destination, service in zip(
@@ -154,24 +154,27 @@ def worst(dataframe: pd.DataFrame):
         return dataframe
 
 
-def crossed(dataframe: pd.DataFrame):
+def crossed_rules(dataframe: pd.DataFrame):
 
-    crossed_rules = pd.DataFrame(columns=dataframe.columns)
-
+    crossed = pd.DataFrame(columns=dataframe.columns)
+    # Needs reverse - cross check - for now only one way
     if not dataframe.empty:
-        for i, ii , a, b, c, d in zip(
+        for i, ii , fz, tz, a, b, c, d in zip(
             dataframe.iloc[0:]['index'],
             dataframe.iloc[1:]['index'],
+            dataframe.iloc[0:]['from zone'],
+            dataframe.iloc[1:]['to zone'],
             dataframe.iloc[0:]['source'],
             dataframe.iloc[1:]['destination'],
             dataframe.iloc[0:]['service'],
             dataframe.iloc[1:]['service']
         ):
             src_dst = list(set(a).intersection(set(b)))
+            from_to_zone = list(set(fz).intersection(set(tz)))
             if src_dst:
                 if c == d:
                     # print(i, a, ii, b, c, d)
                     # print(i, src_dst, c, d)
-                    crossed_rules = crossed_rules.append(dataframe.iloc[[i, ii]])
+                    crossed = crossed.append(dataframe.iloc[[i, ii]])
 
-    return crossed_rules
+    return crossed
