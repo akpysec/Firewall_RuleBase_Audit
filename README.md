@@ -40,7 +40,7 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
     $ virtualenv -p python3 venv
     $ source venv/bin/activate
     $ pip install -r requirements.txt
-    $ python RuleBaseAudit.py --help
+    $ python Firewall_RuleBase_Audit --help
 
 ## Usage
 You can view acceptable formats in 
