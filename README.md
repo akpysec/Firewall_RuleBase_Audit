@@ -40,7 +40,7 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
     $ python RuleBaseAudit.py --help
 
 ## Usage
-Acceptable formats are available in [./tests](https://github.com/akpysec/Firewall_RuleBase_Audit/tree/master/tests) folder, if yours differs I would like to know!
+You can view acceptable formats are available in [./tests](https://github.com/akpysec/Firewall_RuleBase_Audit/tree/master/tests) folder, if yours differs I would like to know!
 
 Rule Base Audit is run through the CLI:
 
