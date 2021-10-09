@@ -26,7 +26,7 @@ Currently the following checks are supported:
     "pandas.errors.ParserError: Error tokenizing data. C error: Expected 2 fields in line x, saw y Occurs"
 
 - To fix this issue just open the file and make a "save as" copy of it, 
-you can even overwrite original copy.
+you can even overwrite original file.
 
 ## Installation & Setup
 Rule Base Audit is written in Python and supports the following versions:
