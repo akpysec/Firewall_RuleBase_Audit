@@ -19,7 +19,7 @@ parser.add_argument('-F', '--file-extension',
                     type=str
                     )
 
-parser.add_argument('-R', '--policy-provider',
+parser.add_argument('-PP', '--policy-provider',
                     required=True,
                     default=None,
                     dest='policy_provider',
