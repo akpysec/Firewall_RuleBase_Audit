@@ -1,5 +1,8 @@
 import pandas as pd
 
+
+""" Common field Variables """
+
 FIELDS = [
     'from zone',
     'to zone',

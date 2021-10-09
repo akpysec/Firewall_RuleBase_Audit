@@ -1,5 +1,5 @@
 from policy_providers import fortigate, tufin
-from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules
+from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
 import colored
@@ -11,7 +11,7 @@ BOLD_GREEN = colored.fg("green") + colored.attr("bold")
 BOLD_ORANGE = colored.fg("dark_orange_3a") + colored.attr("bold")
 
 checks = [
-    any_srv, any_dst, any_src, disabled, track_logs, worst_rules
+    any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
 ]
 
 for check in checks:
