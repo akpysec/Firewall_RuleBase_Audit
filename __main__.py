@@ -3,7 +3,7 @@ from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs,
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
 import colored
-from colored import fg, bg, attr, stylize
+from colored import fg, attr, stylize
 
 
 BOLD_RED = colored.fg("red") + colored.attr("bold")

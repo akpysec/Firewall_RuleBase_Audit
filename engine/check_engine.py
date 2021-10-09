@@ -157,31 +157,32 @@ def worst_rules(dataframe: pd.DataFrame):
 def crossed_rules(dataframe: pd.DataFrame):
 
     crossed = pd.DataFrame(columns=dataframe.columns)
+
     # Maybe needs reverse - cross check: DO MORE TESTING
     if not dataframe.empty:
-
         crossing_middle = pd.DataFrame(columns=dataframe.columns)
 
-        for i, ii , fz, tz, a, b, c, d in zip(
-            dataframe.iloc[0:]['index'],
-            dataframe.iloc[1:]['index'],
+        for i, fz, tz, a, b, c, d in zip(
+            dataframe.index,
             dataframe.iloc[0:]['from zone'],
             dataframe.iloc[1:]['to zone'],
             dataframe.iloc[0:]['source'],
             dataframe.iloc[1:]['destination'],
             dataframe.iloc[0:]['service'],
-            dataframe.iloc[1:]['service']
+            dataframe.iloc[1:]['service'],
         ):
             src_dst = list(set(a).intersection(set(b)))
 
-            # from_to_zone = list(set(fz).intersection(set(tz)))
-            # print(list(filter(None, [fz, tz])))
-            # print(from_to_zone)
-            if src_dst:
+            if src_dst and fz == tz:
                 # Service comparing
                 if c == d:
-                    # print(i, a, ii, b, c, d)
-                    # print(i, src_dst, c, d)
-                    crossing_middle = crossing_middle.append(dataframe.iloc[[i, ii]])
+                    # print(i, a, i + 1, b, c, d)
+                    # print(type(i))
+                    crossing_middle = crossing_middle.append(dataframe.loc[[i, i + 1]])
+        # Fix - when theres a crossed rules discovered, only one of them in enabled state it will print him out.
+        # Crossed rules must be in couples, else it's not crossed rule
+        crossed = crossing_middle.loc[
+            (crossing_middle[FIELDS[7]] == 'allow') &
+            (crossing_middle[FIELDS[6]] != 'disabled')]
 
-        return crossing_middle
+        return crossed

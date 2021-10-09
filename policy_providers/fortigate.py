@@ -146,6 +146,12 @@ def create_df(rule_base_as_nested_dict: dict):
     # SettingWithCopyWarning - Appeared when a .drop empty columns method was called before .to_excel method call
     pd.set_option('mode.chained_assignment', None)
 
+    # Adding numeric indexes
+    df = df.reset_index()
+
+    # Convert whole DataFrame to strings
+    df = df.astype(str)
+
     # Splitting multiple values from df[series] for check convenience
     # May cause an error if cell is not string - more attention needed later
     increment = 2
