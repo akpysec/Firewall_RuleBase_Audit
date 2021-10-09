@@ -156,11 +156,18 @@ def worst_rules(dataframe: pd.DataFrame):
 
 def crossed_rules(dataframe: pd.DataFrame):
 
-    crossed = pd.DataFrame(columns=dataframe.columns)
-
     # Maybe needs reverse - cross check: DO MORE TESTING
     if not dataframe.empty:
-        crossing_middle = pd.DataFrame(columns=dataframe.columns)
+        rows_ids = list()
+        if not dataframe.empty:
+            for row_id, status, action in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]]):
+                if status != 'disabled' and action == 'allow':
+                    rows_ids.append(row_id)
+
+        # Selecting range of indexes of enabled and allowed rules
+        dataframe = dataframe.iloc[rows_ids, 0:]
+
+        crossed = pd.DataFrame(columns=dataframe.columns)
 
         for i, fz, tz, a, b, c, d in zip(
             dataframe.index,
@@ -178,11 +185,6 @@ def crossed_rules(dataframe: pd.DataFrame):
                 if c == d:
                     # print(i, a, i + 1, b, c, d)
                     # print(type(i))
-                    crossing_middle = crossing_middle.append(dataframe.loc[[i, i + 1]])
-        # Fix - when theres a crossed rules discovered, only one of them in enabled state it will print him out.
-        # Crossed rules must be in couples, else it's not crossed rule
-        crossed = crossing_middle.loc[
-            (crossing_middle[FIELDS[7]] == 'allow') &
-            (crossing_middle[FIELDS[6]] != 'disabled')]
+                    crossed = crossed.append(dataframe.loc[[i, i + 1]])
 
         return crossed

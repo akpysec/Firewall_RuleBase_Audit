@@ -20,6 +20,13 @@ Currently the following checks are supported:
 - Crossed rules (Two-way rules)
 - Worst rules (rules with multiple findings)
 
+#### Caveats
+.CSV exported files sometimes are exported as "broken", you may get error:
+
+    "pandas.errors.ParserError: Error tokenizing data. C error: Expected 2 fields in line x, saw y Occurs"
+
+to fix this issue just open the file and make a "save as" copy of it, 
+you can even overwrite original copy.
 ## Installation & Setup
 Rule Base Audit is written in Python and supports the following versions:
 * Python 3.8
