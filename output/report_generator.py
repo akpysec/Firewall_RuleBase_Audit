@@ -1,4 +1,8 @@
-def write_report(path: str, list_of_names: list, list_of_contexts: list):
+import dominate
+from dominate.tags import *
+import os
+
+def write_report(path: str, accordion_name: str, accordion_context: str):
     with open(path, 'a') as htmlsky:
         doc = dominate.document(title='Audit Report')
         with doc.head:
@@ -32,9 +36,9 @@ def write_report(path: str, list_of_names: list, list_of_contexts: list):
             )
         with doc:
             h2('Findings')
-            for n, c in zip(list_of_names, list_of_contexts):
-                button(_class="accordion").add(n)
-                div(_class="panel").add(p(c))
+            button(_class="accordion").add(accordion_name)
+            div(_class="panel").add(p(accordion_context))
             script(src='script.js')
-
-        htmlsky.write(str(doc))
+        doc = str(doc).replace('&quot', '"').replace('";', '"')
+        # os.system(f'copy .\script.js {path.strip("fortigate-Audit-Report.html")} ') #fortigate-Audit-Report.html
+        htmlsky.write(doc)

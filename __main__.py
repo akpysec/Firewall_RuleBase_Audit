@@ -3,7 +3,7 @@ from policy_providers import fortigate, tufin
 from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
-from output import report_generator
+from output.report_generator import write_report
 
 # Packages Import
 import colored
@@ -33,6 +33,11 @@ for check in checks:
             )
         )
         if forti is not None:
+            write_report(
+                path=f"{args.path}\\{args.policy_provider}-Audit-Report.html",
+                accordion_name=check.__name__.upper(),
+                accordion_context=forti.columns
+            )
             print(stylize(f'{check.__name__.upper()} \tFINDING', BOLD_RED))
         elif forti is None:
             print(stylize(f"{check.__name__.upper()} \tPASS", BOLD_GREEN))
@@ -48,8 +53,12 @@ for check in checks:
             )
         )
         if tufi is not None:
+            write_report(
+                path=f"{args.path}\\{args.policy_provider}-Audit-Report.html",
+                accordion_name=check.__name__.upper(),
+                accordion_context=tufi.columns
+            )
             print(stylize(f'{check.__name__.upper()} \tFINDING', BOLD_RED))
-            # tufi.to_csv(f"{args.path}\\{args.policy_provider}-{check.__name__}.csv")
         elif tufi is None:
             print(stylize(f"{check.__name__.upper()} \tPASS", BOLD_GREEN))
         else:
