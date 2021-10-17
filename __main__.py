@@ -1,11 +1,14 @@
+# Local Project Imports
 from policy_providers import fortigate, tufin
 from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
+from output import report_generator
+
+# Packages Import
 import colored
 from colored import fg, attr, stylize
-import pandas as pd
-import tests
+
 
 BOLD_RED = colored.fg("red") + colored.attr("bold")
 BOLD_GREEN = colored.fg("green") + colored.attr("bold")

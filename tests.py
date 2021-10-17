@@ -38,10 +38,9 @@ from dominate.tags import *
 #         )
 #     )
 
-def write_report():
-    with open('AuditReport.html', 'w') as htmlsky:
+def write_report(path: str, list_of_names: list, list_of_contexts: list):
+    with open(path, 'a') as htmlsky:
         doc = dominate.document(title='Audit Report')
-
         with doc.head:
             meta(name="viewport", content="width=device-width, initial-scale=1")
             style(
@@ -73,8 +72,17 @@ def write_report():
             )
         with doc:
             h2('Findings')
-            button(_class="accordion").add("First")
-            div(_class="panel").add(p("Some text"))
-            script(src='script.js')
+            for n, c in zip(list_of_names, list_of_contexts):
+                button(_class="accordion").add(n)
+                div(_class="panel").add(p(c))
+            script(src='output/script.js')
 
         htmlsky.write(str(doc))
+
+
+write_report(
+    path='AuditReport.html',
+    list_of_names=['row 1', 'row 2', 'row 3', 'row 4'],
+    list_of_contexts = ['context 1', 'context 2', 'context 3', 'context 4']
+)
+
