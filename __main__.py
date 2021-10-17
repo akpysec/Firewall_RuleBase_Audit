@@ -5,7 +5,7 @@ from engine.bar_chart import stats_chart
 import colored
 from colored import fg, attr, stylize
 import pandas as pd
-
+import tests
 
 BOLD_RED = colored.fg("red") + colored.attr("bold")
 BOLD_GREEN = colored.fg("green") + colored.attr("bold")
@@ -29,21 +29,10 @@ for check in checks:
                 )
             )
         )
-
-        # writer = pd.ExcelWriter(f'{args.path}\\{args.policy_provider}.xlsx', engine='xlsxwriter')
-        # # forti.to_excel(writer, sheet_name="All Rules", startrow=0, index=False)
-        # writer.save()
-
         if forti is not None:
-            # with pd.ExcelWriter(f'{args.path}\\{args.policy_provider}.xlsx', engine='openpyxl', mode='w') as writer:
-            #     forti.to_excel(writer, sheet_name=check.__name__)
-            print(stylize(f'{check.__name__} \tFINDING', BOLD_RED))
-            print(forti.style)
-            # with open(f'{args.path}\\{args.policy_provider}.csv', 'a') as file:
-            #     forti.to_csv(file, index=False)
-
+            print(stylize(f'{check.__name__.upper()} \tFINDING', BOLD_RED))
         elif forti is None:
-            print(stylize(f"{check.__name__} \tPASS", BOLD_GREEN))
+            print(stylize(f"{check.__name__.upper()} \tPASS", BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -56,10 +45,10 @@ for check in checks:
             )
         )
         if tufi is not None:
-            print(stylize(f'{check.__name__} \tFINDING', BOLD_RED))
+            print(stylize(f'{check.__name__.upper()} \tFINDING', BOLD_RED))
             # tufi.to_csv(f"{args.path}\\{args.policy_provider}-{check.__name__}.csv")
         elif tufi is None:
-            print(stylize(f"{check.__name__} \tPASS", BOLD_GREEN))
+            print(stylize(f"{check.__name__.upper()} \tPASS", BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
