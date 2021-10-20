@@ -5,22 +5,9 @@ from policy_providers import fortigate, tufin, checkpoint
 # from dominate.tags import *
 
 
-# print(
-#     check_engine.crossed_rules(
-#         fortigate.create_df(
-#             rule_base_as_nested_dict=fortigate.rule_base_parsing(
-#                 raw_dataframe=fortigate.files_reader(
-#                     path_to_files="C:\\Users\\andreyk\\PycharmProjects\\Tests",
-#                     file_extension="txt",
-#                     encoding_files="windows-1256"
-#                 )
-#             )
-#         )
-#     )
-# )
-
-
-test = check_engine.crossed_rules(fortigate.create_df(
+print(
+    check_engine.crossed_rules(
+        fortigate.create_df(
             rule_base_as_nested_dict=fortigate.rule_base_parsing(
                 raw_dataframe=fortigate.files_reader(
                     path_to_files="C:\\Users\\andreyk\\PycharmProjects\\Tests",
@@ -29,10 +16,23 @@ test = check_engine.crossed_rules(fortigate.create_df(
                 )
             )
         )
+    )
 )
 
-for row in test.itertuples():
-    print(*row[0:])
+
+# test = check_engine.crossed_rules(fortigate.create_df(
+#             rule_base_as_nested_dict=fortigate.rule_base_parsing(
+#                 raw_dataframe=fortigate.files_reader(
+#                     path_to_files="C:\\Users\\andreyk\\PycharmProjects\\Tests",
+#                     file_extension="txt",
+#                     encoding_files="windows-1256"
+#                 )
+#             )
+#         )
+# )
+
+# for row in test.itertuples():
+#     print(*row[0:])
 
     # print(
 #     check_engine.crossed_rules(

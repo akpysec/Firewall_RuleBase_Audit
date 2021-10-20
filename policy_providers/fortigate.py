@@ -159,6 +159,9 @@ def create_df(rule_base_as_nested_dict: dict):
         df[FIELDS[increment]].update(df[FIELDS[increment]].str.split())
         increment += 1
 
+    # Must fill Rule status - when rule status is enabled it appears as Nan, replace Nan with enabled value
+    df[FIELDS[6]] = df[FIELDS[6]].apply(lambda x: x.replace('nan', 'enabled'))
+
     # Filling all 'nan' values
     df.fillna('', inplace=True)
 
