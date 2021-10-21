@@ -9,11 +9,16 @@ print(requirements)
 with open('README.md', 'r') as readme:
     long_description = readme.read()
 
+with open("LICENSE", 'r') as file:
+    license_read = file.read()
+
 classifiers=[
     'Development Status :: 1 - Beta',
     'Intended Audience :: Information Technology',
     'Intended Audience :: System Administrators',
     'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Natural Language :: English',
+    'Operating System :: Windows',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
 ]
@@ -25,10 +30,11 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Andrey Kolihanov',
+    author_email='akpysec@gmail.com',
     python_requires="~=3.8",
     packages=find_packages(),
     install_requires=requirements,
     include_package_data=True,
-    license='GNU General Public License v3 (GPLv3)',
+    license=license_read,
     classifiers=classifiers
 )
