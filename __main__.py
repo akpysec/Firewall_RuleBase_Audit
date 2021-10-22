@@ -33,7 +33,7 @@ writer.close()
 
 for check in checks:
     findings = list() # Put here what found and then write to excel each
-    if args.policy_provider == 'fortigate':
+    if args.policy_provider.lower() == 'fortigate':
         forti = check(
             dataframe=fortigate.create_df(
                 rule_base_as_nested_dict=fortigate.rule_base_parsing(
@@ -54,7 +54,7 @@ for check in checks:
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
-    elif args.policy_provider == 'tufin':
+    elif args.policy_provider.lower() == 'tufin':
         tufi = check(
             dataframe=tufin.files_reader_and_parser(
                 path_to_files=args.path,
@@ -73,7 +73,4 @@ for check in checks:
 
 
 
-# # For later
-# if args.bar_chart:
-#     stats_chart(finding_type="str", times_found=int)
 
