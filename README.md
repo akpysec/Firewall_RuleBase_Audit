@@ -58,7 +58,7 @@ if yours differs I would like to know!
 
 Rule Base Audit is run through the CLI:
 
-    python3 Firewall_RuleBase_Audit --path /path/to/folder/with/file/s --file-extension txt --policy-provider fortigate
+    python Firewall_RuleBase_Audit --path {path} --file-extension {txt/csv} --policy-provider {provider}
 
 #### Add HERE GIF - later
 

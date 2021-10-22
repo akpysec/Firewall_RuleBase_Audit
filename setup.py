@@ -13,7 +13,7 @@ with open("LICENSE", 'r') as file:
     license_read = file.read()
 
 classifiers=[
-    'Development Status :: 1 - Beta',
+    'Development Status :: 4 - Beta',
     'Intended Audience :: Information Technology',
     'Intended Audience :: System Administrators',
     'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
@@ -25,7 +25,7 @@ classifiers=[
 
 setup(
     name="Firewall_RuleBase_Audit",
-    version="1.0.0",
+    version="0.0.1",
     description="FW Policy Audit",
     long_description=long_description,
     long_description_content_type='text/markdown',

@@ -4,7 +4,7 @@ from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs,
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
 
-# Packages Import
+# Libraries Import
 import colored
 from colored import fg, attr, stylize
 import pandas as pd
@@ -28,7 +28,7 @@ base_info = {
     'Policy Path': [args.path]
 }
 base_frame = pd.DataFrame(base_info)
-base_frame.to_excel(writer, sheet_name="Base Info", index=False)
+base_frame.to_excel(writer, sheet_name="Flags", index=False)
 writer.close()
 
 for check in checks:
