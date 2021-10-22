@@ -37,7 +37,7 @@ parser.add_argument('-E', '--encoding',
 parser.add_argument('-C', '--chart',
                     action="store_true",
                     dest='bar_chart',
-                    help='Display a Bar Chart with stats',
+                    help='Display a Bar Chart with stats [Not Functional..yet]',
                     )
 
 args = parser.parse_args()
