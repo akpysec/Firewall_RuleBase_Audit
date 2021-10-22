@@ -26,11 +26,12 @@ classifiers=[
 setup(
     name="Firewall_RuleBase_Audit",
     version="1.0.0",
-    description="IPv4 Policy Audit",
+    description="FW Policy Audit",
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Andrey Kolihanov',
     author_email='akpysec@gmail.com',
+    url='https://github.com/akpysec/Firewall_RuleBase_Audit',
     python_requires="~=3.8",
     packages=find_packages(),
     install_requires=requirements,
