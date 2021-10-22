@@ -46,8 +46,9 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
     git clone https://github.com/akpysec/Firewall_RuleBase_Audit
     cd Firewall_RuleBase_Audit
     virtualenv -p python3 venv
-    source venv/bin/activate
+    source venv\bin\activate
     pip install -r requirements.txt
+    cd ..
     python Firewall_RuleBase_Audit --help
 
 ## Usage
@@ -57,9 +58,7 @@ if yours differs I would like to know!
 
 Rule Base Audit is run through the CLI:
 
-    $ python3 Firewall_RuleBase_Audit --path /path/to/folder/with/file/s --file-extension txt --policy-provider fortigate
-    OR
-    $ python3 Firewall_RuleBase_Audit -P /path/to/folder/with/file/s -F csv -PP tufin
+    python3 Firewall_RuleBase_Audit --path /path/to/folder/with/file/s --file-extension txt --policy-provider fortigate
 
 #### Add HERE GIF - later
 
