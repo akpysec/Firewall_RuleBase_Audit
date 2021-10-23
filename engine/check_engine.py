@@ -1,5 +1,9 @@
 import pandas as pd
 import xlsxwriter
+import colored
+from colored import fg, attr, stylize
+import openpyxl
+
 
 """ Common field Variables """
 
@@ -17,6 +21,30 @@ FIELDS = [
     'service negated'
 ]
 
+""" Coloring Scheme """
+
+colorize = ["black",  # 0
+            "blue",  # 1
+            "brown",  # 2
+            "cyan",  # 3
+            "gray",  # 4
+            "green",  # 5
+            "lime",  # 6
+            "magenta",  # 7
+            "navy",  # 8
+            "orange",  # 9
+            "pink",  # 10
+            "purple",  # 11
+            "red",  # 12
+            "silver",  # 13
+            "white",  # 14
+            "yellow"  # 15
+            ]
+
+BOLD_RED = colored.fg("red") + colored.attr("bold")
+BOLD_GREEN = colored.fg("green") + colored.attr("bold")
+BOLD_ORANGE = colored.fg("dark_orange_3a") + colored.attr("bold")
+
 """ Generic Functions """
 
 
@@ -28,19 +56,35 @@ def convert_to_single_convention(data_series: pd.Series, change_from: str, chang
     return data_series.apply(lambda x: x.replace(change_from, change_to) if isinstance(x, str) else x)
 
 
+def write_to_excel(dataframe: pd.DataFrame, file_name: str, check_sheet_name: str):
+    with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+        dataframe.to_excel(writer, sheet_name=check_sheet_name.upper().replace("_", " "), index=False)
+    return
+
 """ Checks Functions """
 
 
-def disabled(dataframe: pd.DataFrame):
+def disabled(dataframe: pd.DataFrame, file_name: str):
     if not dataframe.empty:
-        disabled_rules = dataframe.loc[
+        dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] == 'disabled')
         ]
 
         # Dropping empty columns
-        disabled_rules.dropna(how='all', axis=1, inplace=True)
+        dataframe.dropna(how='all', axis=1, inplace=True)
 
-        return disabled_rules
+        if not dataframe.empty:
+            with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+                dataframe.to_excel(writer, sheet_name=disabled.__name__.upper().replace("_", " "), index=False)
+
+            print(stylize(f'{disabled.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
+            return dataframe
+
+        elif dataframe.empty:
+            print(stylize(f'{disabled.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        else:
+            print(stylize("Something else happened", BOLD_ORANGE))
 
     elif dataframe.empty:
         print("DataFrame is Empty")
@@ -48,17 +92,28 @@ def disabled(dataframe: pd.DataFrame):
         print("Something else happened")
 
 
-def track_logs(dataframe: pd.DataFrame):
+def track_logs(dataframe: pd.DataFrame, file_name: str):
     if not dataframe.empty:
-        track_log = dataframe.loc[
+        dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] != 'disabled') &
             (dataframe[FIELDS[8]] != 'log')
             ]
 
         # Dropping empty columns
-        track_log.dropna(how='all', axis=1, inplace=True)
+        dataframe.dropna(how='all', axis=1, inplace=True)
 
-        return track_log
+        if not dataframe.empty:
+            with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+                dataframe.to_excel(writer, sheet_name=track_logs.__name__.upper().replace("_", " "), index=False)
+
+            print(stylize(f'{track_logs.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
+            return dataframe
+
+        elif dataframe.empty:
+            print(stylize(f'{track_logs.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        else:
+            print(stylize("Something else happened", BOLD_ORANGE))
 
     elif dataframe.empty:
         print("DataFrame is Empty")
@@ -66,7 +121,7 @@ def track_logs(dataframe: pd.DataFrame):
         print("Something else happened")
 
 
-def any_src(dataframe: pd.DataFrame):
+def any_src(dataframe: pd.DataFrame, file_name: str):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, source in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[2]]):
@@ -84,10 +139,22 @@ def any_src(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
+        with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+            dataframe.to_excel(writer, sheet_name=any_src.__name__.upper().replace("_", " "), index=False)
+
+        print(stylize(f'{any_src.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
         return dataframe
 
+    elif dataframe.empty:
+        print(stylize(f'{any_src.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+    else:
+        print(stylize("Something else happened", BOLD_ORANGE))
 
-def any_dst(dataframe: pd.DataFrame):
+
+
+
+def any_dst(dataframe: pd.DataFrame, file_name: str):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, destination in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[3]]):
@@ -105,10 +172,20 @@ def any_dst(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
+        with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+            dataframe.to_excel(writer, sheet_name=any_dst.__name__.upper().replace("_", " "), index=False)
+
+        print(stylize(f'{any_dst.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
         return dataframe
 
+    elif dataframe.empty:
+        print(stylize(f'{any_dst.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+    else:
+        print(stylize("Something else happened", BOLD_ORANGE))
 
-def any_srv(dataframe: pd.DataFrame):
+
+def any_srv(dataframe: pd.DataFrame, file_name: str):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, service in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[4]]):
@@ -126,10 +203,20 @@ def any_srv(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
+        with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+            dataframe.to_excel(writer, sheet_name=any_srv.__name__.upper().replace("_", " "), index=False)
+
+        print(stylize(f'{any_srv.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
         return dataframe
 
+    elif dataframe.empty:
+        print(stylize(f'{any_srv.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+    else:
+        print(stylize("Something else happened", BOLD_ORANGE))
 
-def worst_rules(dataframe: pd.DataFrame):
+
+def worst_rules(dataframe: pd.DataFrame, file_name: str):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, source, destination, service in zip(
@@ -154,10 +241,20 @@ def worst_rules(dataframe: pd.DataFrame):
     dataframe = dataframe.iloc[rows_ids, 0:]
 
     if not dataframe.empty:
+        with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+            dataframe.to_excel(writer, sheet_name=worst_rules.__name__.upper().replace("_", " "), index=False)
+
+        print(stylize(f'{worst_rules.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
         return dataframe
 
+    elif dataframe.empty:
+        print(stylize(f'{worst_rules.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+    else:
+        print(stylize("Something else happened", BOLD_ORANGE))
 
-def crossed_rules(dataframe: pd.DataFrame):
+
+def crossed_rules(dataframe: pd.DataFrame, file_name: str):
 
     # Maybe needs reverse - cross check: DO MORE TESTING
     if not dataframe.empty:
@@ -173,13 +270,13 @@ def crossed_rules(dataframe: pd.DataFrame):
         crossed = pd.DataFrame(columns=dataframe.columns)
 
         for i, fz, tz, a, b, c, d in zip(
-            dataframe.index,
-            dataframe.iloc[0:]['from zone'],
-            dataframe.iloc[1:]['to zone'],
-            dataframe.iloc[0:]['source'],
-            dataframe.iloc[1:]['destination'],
-            dataframe.iloc[0:]['service'],
-            dataframe.iloc[1:]['service'],
+                dataframe.index,
+                dataframe.iloc[0:]['from zone'],
+                dataframe.iloc[1:]['to zone'],
+                dataframe.iloc[0:]['source'],
+                dataframe.iloc[1:]['destination'],
+                dataframe.iloc[0:]['service'],
+                dataframe.iloc[1:]['service'],
         ):
             src_dst = list(set(a).intersection(set(b)))
 
@@ -190,4 +287,16 @@ def crossed_rules(dataframe: pd.DataFrame):
                     # print(type(i))
                     crossed = crossed.append(dataframe.loc[[i, i + 1]])
 
-        return crossed
+        if not crossed.empty:
+            with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
+                crossed.to_excel(writer, sheet_name=crossed_rules.__name__.upper().replace("_", " "), index=False)
+
+            print(stylize(f'{crossed_rules.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+
+            return crossed
+
+        elif crossed.empty:
+            print(stylize(f'{crossed_rules.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        else:
+            print(stylize("Something else happened", BOLD_ORANGE))
+
