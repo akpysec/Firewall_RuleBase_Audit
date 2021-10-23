@@ -5,7 +5,7 @@ from colored import fg, attr, stylize
 import openpyxl
 from openpyxl.workbook import Workbook
 from openpyxl.styles import PatternFill, Font
-
+import datetime
 
 """ Common field Variables """
 
@@ -41,43 +41,65 @@ def convert_to_single_convention(data_series: pd.Series, change_from: str, chang
     return data_series.apply(lambda x: x.replace(change_from, change_to) if isinstance(x, str) else x)
 
 
+def paint_em(file_name, sheet_name, dataframe, column_name):
+
+    wb = openpyxl.load_workbook(file_name)
+    ws = wb[sheet_name]
+    paint_red = Font(name='Segoe UI',
+                     size=11,
+                     bold=True,
+                     italic=True,
+                     vertAlign=None,
+                     underline='none',
+                     strike=False,
+                     color='00FF0000')
+
+    sheet_number = dataframe.columns.get_loc(column_name)
+
+    for row in ws.iter_rows(min_row=2):
+        row[sheet_number].font = paint_red
+    wb.save(file_name)
+
+
+def creating_excel_sheet(output_name: str, fw_type: str, policy_file_path: str, sheet_name="Flags"):
+    # Couldn't find a way to remove the first sheet('Sheet1'), so I added some lame info
+    # output_name = 'Audit-Checks.xlsx'
+    writer = pd.ExcelWriter(output_name, engine='xlsxwriter')
+    base_info = {
+        'Date': [datetime.datetime.today()],
+        'Firewall Type': [fw_type.upper()],
+        'Policy Path': [policy_file_path]
+    }
+    base_frame = pd.DataFrame(base_info)
+    base_frame.to_excel(writer, sheet_name=sheet_name, index=False)
+    writer.close()
+
+
 """ Checks Functions """
 
 # def disabled(dataframe: pd.DataFrame, file_name: str, sheet: str):
-def disabled(dataframe: pd.DataFrame, file_name: str):
-    # sheet = 'DISABLED'
+def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
+
     if not dataframe.empty:
         dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] == 'disabled')
         ]
 
-        # Dropping empty columns
-        dataframe.dropna(how='all', axis=1, inplace=True)
+        # Dropping empty columns ------------- FIND A WAY to DROP COLUMNS with 'nan' values
+        # dataframe.dropna(how='all', axis=1, inplace=True)
 
         if not dataframe.empty:
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-                dataframe.to_excel(writer, sheet_name=sheet, index=False)
+                dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-            wb = openpyxl.load_workbook(file_name)
-            ws = wb[sheet]
-            paint_red = Font(name='Segoe UI',
-                                 size=11,
-                                 bold=True,
-                                 italic=True,
-                                 vertAlign=None,
-                                 underline='none',
-                                 strike=False,
-                                 color='00FF0000')
-            for cell in ws["2:2"]:
-                cell.font = paint_red
-            wb.save(file_name)
+            paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[6])
 
-            print(stylize(f'{disabled.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+            print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
 
             return dataframe
 
         elif dataframe.empty:
-            print(stylize(f'{disabled.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+            print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -87,26 +109,29 @@ def disabled(dataframe: pd.DataFrame, file_name: str):
         print("Something else happened")
 
 
-def track_logs(dataframe: pd.DataFrame, file_name: str):
+def track_logs(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
+
     if not dataframe.empty:
         dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] != 'disabled') &
             (dataframe[FIELDS[8]] != 'log')
             ]
 
-        # Dropping empty columns
-        dataframe.dropna(how='all', axis=1, inplace=True)
+        # Dropping empty columns ------------- FIND A WAY to DROP COLUMNS with 'nan' values
+        # dataframe.dropna(how='all', axis=1, inplace=True)
 
         if not dataframe.empty:
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-                dataframe.to_excel(writer, sheet_name=track_logs.__name__.upper().replace("_", " "), index=False)
+                dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-            print(stylize(f'{track_logs.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+            paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[8])
+
+            print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
 
             return dataframe
 
         elif dataframe.empty:
-            print(stylize(f'{track_logs.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+            print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -116,7 +141,8 @@ def track_logs(dataframe: pd.DataFrame, file_name: str):
         print("Something else happened")
 
 
-def any_src(dataframe: pd.DataFrame, file_name: str):
+def any_src(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
+
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, source in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[2]]):
@@ -135,9 +161,11 @@ def any_src(dataframe: pd.DataFrame, file_name: str):
 
     if not dataframe.empty:
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-            dataframe.to_excel(writer, sheet_name=any_src.__name__.upper().replace("_", " "), index=False)
+            dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        print(stylize(f'{any_src.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[2])
+
+        print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
 
         return dataframe
 
@@ -147,9 +175,8 @@ def any_src(dataframe: pd.DataFrame, file_name: str):
         print(stylize("Something else happened", BOLD_ORANGE))
 
 
+def any_dst(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
-
-def any_dst(dataframe: pd.DataFrame, file_name: str):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, destination in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[3]]):
@@ -168,19 +195,22 @@ def any_dst(dataframe: pd.DataFrame, file_name: str):
 
     if not dataframe.empty:
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-            dataframe.to_excel(writer, sheet_name=any_dst.__name__.upper().replace("_", " "), index=False)
+            dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        print(stylize(f'{any_dst.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[3])
+
+        print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
 
         return dataframe
 
     elif dataframe.empty:
-        print(stylize(f'{any_dst.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
     else:
         print(stylize("Something else happened", BOLD_ORANGE))
 
 
-def any_srv(dataframe: pd.DataFrame, file_name: str):
+def any_srv(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
+
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, service in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[4]]):
@@ -199,19 +229,21 @@ def any_srv(dataframe: pd.DataFrame, file_name: str):
 
     if not dataframe.empty:
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-            dataframe.to_excel(writer, sheet_name=any_srv.__name__.upper().replace("_", " "), index=False)
+            dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        print(stylize(f'{any_srv.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[4])
+
+        print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
 
         return dataframe
 
     elif dataframe.empty:
-        print(stylize(f'{any_srv.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
     else:
         print(stylize("Something else happened", BOLD_ORANGE))
 
 
-def worst_rules(dataframe: pd.DataFrame, file_name: str):
+def worst_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
     rows_ids = list()
     if not dataframe.empty:
         for row_id, status, action, source, destination, service in zip(
@@ -249,7 +281,7 @@ def worst_rules(dataframe: pd.DataFrame, file_name: str):
         print(stylize("Something else happened", BOLD_ORANGE))
 
 
-def crossed_rules(dataframe: pd.DataFrame, file_name: str):
+def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
     # Maybe needs reverse - cross check: DO MORE TESTING
     if not dataframe.empty:

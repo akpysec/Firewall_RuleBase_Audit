@@ -1,29 +1,19 @@
 # Local Project Imports
 from policy_providers import fortigate, tufin
-from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
+from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules, creating_excel_sheet
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
 
-# Libraries Import
-import pandas as pd
-import openpyxl
-import datetime
 
 checks = [
     any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
 ]
 
-# Couldn't find a way to remove the first sheet('Sheet1'), so I added some lame info
 AUDIT_OUTPUT = 'Audit-Checks.xlsx'
-writer = pd.ExcelWriter(AUDIT_OUTPUT, engine='xlsxwriter')
-base_info = {
-    'Date': [datetime.datetime.today()],
-    'Firewall Type': [args.policy_provider.upper()],
-    'Policy Path': [args.path]
-}
-base_frame = pd.DataFrame(base_info)
-base_frame.to_excel(writer, sheet_name="Flags", index=False)
-writer.close()
+creating_excel_sheet(
+    output_name=AUDIT_OUTPUT,
+    fw_type=args.policy_provider,
+    policy_file_path=args.path)
 
 print("-" * 23)
 print("Performing checks:")
@@ -41,8 +31,8 @@ for check in checks:
                     )
                 )
             ),
-            file_name=AUDIT_OUTPUT
-            # sheet=check.__name__.upper().replace('_', ' ')
+            file_name=AUDIT_OUTPUT,
+            sheet_name=check.__name__.upper().replace('_', ' ')
         )
 
     elif args.policy_provider.lower() == 'tufin':
@@ -51,7 +41,9 @@ for check in checks:
                 path_to_files=args.path,
                 file_extension=args.file_extension,
                 encoding_files=args.encoding
-            )
+            ),
+            file_name=AUDIT_OUTPUT,
+            sheet_name=check.__name__.upper().replace('_', ' ')
         )
 
 

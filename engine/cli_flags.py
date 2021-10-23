@@ -23,7 +23,7 @@ parser.add_argument('-PP', '--policy-provider',
                     required=True,
                     default=None,
                     dest='policy_provider',
-                    help='Provide a Firewall rule base provider name - Tufin | Checkpoint | Palo-alto | Fortigate',
+                    help=f'Provide a Firewall rule base provider name - Checkpoint | Fortigate | Tufin',
                     type=str
                     )
 
