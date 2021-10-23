@@ -1,6 +1,6 @@
 # Local Project Imports
 from policy_providers import fortigate, tufin
-from engine.check_engine import any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules, creating_excel_sheet
+from engine.check_engine import *
 from engine.cli_flags import args
 from engine.bar_chart import stats_chart
 
@@ -15,9 +15,7 @@ creating_excel_sheet(
     fw_type=args.policy_provider,
     policy_file_path=args.path)
 
-print("-" * 23)
-print("Performing checks:")
-print("-" * 23)
+printing_to_console(msg="Performing Checks:")
 
 for check in checks:
     if args.policy_provider.lower() == 'fortigate':
@@ -46,7 +44,4 @@ for check in checks:
             sheet_name=check.__name__.upper().replace('_', ' ')
         )
 
-
-print("-" * 23)
-print(f"DONE!!!")
-print("-" * 23)
+printing_to_console(msg="DONE!!!")

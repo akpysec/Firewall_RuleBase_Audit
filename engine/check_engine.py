@@ -28,8 +28,14 @@ FIELDS = [
 BOLD_RED = colored.fg("red") + colored.attr("bold")
 BOLD_GREEN = colored.fg("green") + colored.attr("bold")
 BOLD_ORANGE = colored.fg("dark_orange_3a") + colored.attr("bold")
+BOLD_YELLOW = colored.fg("yellow_3b") + colored.attr("bold")
 
 """ Generic Functions """
+
+def printing_to_console(msg: str):
+    print(stylize("-" * 23, BOLD_YELLOW))
+    print(stylize(msg, BOLD_YELLOW))
+    print(stylize("-" * 23, BOLD_YELLOW))
 
 
 def df_to_low_case(dataframe: pd.DataFrame):
