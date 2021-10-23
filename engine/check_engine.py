@@ -3,6 +3,8 @@ import xlsxwriter
 import colored
 from colored import fg, attr, stylize
 import openpyxl
+from openpyxl.workbook import Workbook
+from openpyxl.styles import PatternFill, Font
 
 
 """ Common field Variables """
@@ -23,23 +25,6 @@ FIELDS = [
 
 """ Coloring Scheme """
 
-colorize = ["black",  # 0
-            "blue",  # 1
-            "brown",  # 2
-            "cyan",  # 3
-            "gray",  # 4
-            "green",  # 5
-            "lime",  # 6
-            "magenta",  # 7
-            "navy",  # 8
-            "orange",  # 9
-            "pink",  # 10
-            "purple",  # 11
-            "red",  # 12
-            "silver",  # 13
-            "white",  # 14
-            "yellow"  # 15
-            ]
 
 BOLD_RED = colored.fg("red") + colored.attr("bold")
 BOLD_GREEN = colored.fg("green") + colored.attr("bold")
@@ -56,15 +41,11 @@ def convert_to_single_convention(data_series: pd.Series, change_from: str, chang
     return data_series.apply(lambda x: x.replace(change_from, change_to) if isinstance(x, str) else x)
 
 
-def write_to_excel(dataframe: pd.DataFrame, file_name: str, check_sheet_name: str):
-    with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-        dataframe.to_excel(writer, sheet_name=check_sheet_name.upper().replace("_", " "), index=False)
-    return
-
 """ Checks Functions """
 
-
+# def disabled(dataframe: pd.DataFrame, file_name: str, sheet: str):
 def disabled(dataframe: pd.DataFrame, file_name: str):
+    # sheet = 'DISABLED'
     if not dataframe.empty:
         dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] == 'disabled')
@@ -75,7 +56,21 @@ def disabled(dataframe: pd.DataFrame, file_name: str):
 
         if not dataframe.empty:
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-                dataframe.to_excel(writer, sheet_name=disabled.__name__.upper().replace("_", " "), index=False)
+                dataframe.to_excel(writer, sheet_name=sheet, index=False)
+
+            wb = openpyxl.load_workbook(file_name)
+            ws = wb[sheet]
+            paint_red = Font(name='Segoe UI',
+                                 size=11,
+                                 bold=True,
+                                 italic=True,
+                                 vertAlign=None,
+                                 underline='none',
+                                 strike=False,
+                                 color='00FF0000')
+            for cell in ws["2:2"]:
+                cell.font = paint_red
+            wb.save(file_name)
 
             print(stylize(f'{disabled.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
 

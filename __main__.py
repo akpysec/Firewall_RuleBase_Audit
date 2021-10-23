@@ -42,6 +42,7 @@ for check in checks:
                 )
             ),
             file_name=AUDIT_OUTPUT
+            # sheet=check.__name__.upper().replace('_', ' ')
         )
 
     elif args.policy_provider.lower() == 'tufin':
