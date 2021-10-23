@@ -25,7 +25,6 @@ FIELDS = [
 
 """ Coloring Scheme """
 
-
 BOLD_RED = colored.fg("red") + colored.attr("bold")
 BOLD_GREEN = colored.fg("green") + colored.attr("bold")
 BOLD_ORANGE = colored.fg("dark_orange_3a") + colored.attr("bold")
@@ -62,8 +61,7 @@ def paint_em(file_name, sheet_name, dataframe, column_name):
 
 
 def creating_excel_sheet(output_name: str, fw_type: str, policy_file_path: str, sheet_name="Flags"):
-    # Couldn't find a way to remove the first sheet('Sheet1'), so I added some lame info
-    # output_name = 'Audit-Checks.xlsx'
+
     writer = pd.ExcelWriter(output_name, engine='xlsxwriter')
     base_info = {
         'Date': [datetime.datetime.today()],
