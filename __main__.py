@@ -2,14 +2,13 @@
 from policy_providers import fortigate, tufin
 from engine.check_engine import *
 from engine.cli_flags import args
-from engine.bar_chart import stats_chart
 
 
 checks = [
     any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
 ]
 
-AUDIT_OUTPUT = 'Audit-Checks.xlsx'
+AUDIT_OUTPUT = 'FW-Audit-Checks.xlsx'
 creating_excel_sheet(
     output_name=AUDIT_OUTPUT,
     fw_type=args.policy_provider,
@@ -44,4 +43,6 @@ for check in checks:
             sheet_name=check.__name__.upper().replace('_', ' ')
         )
 
-printing_to_console(msg="DONE!!!")
+printing_to_console(
+    msg=f"Check generated report: \n\n- {AUDIT_OUTPUT}"
+)

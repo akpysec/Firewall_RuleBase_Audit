@@ -18,7 +18,7 @@ classifiers=[
     'Intended Audience :: System Administrators',
     'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
     'Natural Language :: English',
-    'Operating System :: Windows',
+    'Operating System :: Microsoft :: Windows',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
 ]

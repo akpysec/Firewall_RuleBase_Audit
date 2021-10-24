@@ -33,9 +33,9 @@ BOLD_YELLOW = colored.fg("yellow_3b") + colored.attr("bold")
 """ Generic Functions """
 
 def printing_to_console(msg: str):
-    print(stylize("-" * 23, BOLD_YELLOW))
+    print(stylize("-" * 26, BOLD_YELLOW))
     print(stylize(msg, BOLD_YELLOW))
-    print(stylize("-" * 23, BOLD_YELLOW))
+    print(stylize("-" * 26, BOLD_YELLOW))
 
 
 def df_to_low_case(dataframe: pd.DataFrame):
@@ -81,7 +81,6 @@ def creating_excel_sheet(output_name: str, fw_type: str, policy_file_path: str, 
 
 """ Checks Functions """
 
-# def disabled(dataframe: pd.DataFrame, file_name: str, sheet: str):
 def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
     if not dataframe.empty:
@@ -98,12 +97,12 @@ def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
             paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[6])
 
-            print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
+            print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
             return dataframe
 
         elif dataframe.empty:
-            print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
+            print('- ' + sheet_name, stylize('\t | PASS', BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -130,12 +129,12 @@ def track_logs(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
             paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[8])
 
-            print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
+            print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
             return dataframe
 
         elif dataframe.empty:
-            print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
+            print('- ' + sheet_name, stylize('\t | PASS', BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -169,12 +168,12 @@ def any_src(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
         paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[2])
 
-        print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
+        print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
         return dataframe
 
     elif dataframe.empty:
-        print(stylize(f'{any_src.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        print('- ' + sheet_name, stylize('\t | PASS', BOLD_GREEN))
     else:
         print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -203,12 +202,12 @@ def any_dst(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
         paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[3])
 
-        print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
+        print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
         return dataframe
 
     elif dataframe.empty:
-        print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
+        print('- ' + sheet_name, stylize('\t | PASS', BOLD_GREEN))
     else:
         print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -237,12 +236,12 @@ def any_srv(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
         paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[4])
 
-        print(stylize(f'{sheet_name} \tFINDING', BOLD_RED))
+        print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
         return dataframe
 
     elif dataframe.empty:
-        print(stylize(f'{sheet_name} \tPASS', BOLD_GREEN))
+        print('- ' + sheet_name, stylize('\t | PASS', BOLD_GREEN))
     else:
         print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -273,14 +272,14 @@ def worst_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
     if not dataframe.empty:
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-            dataframe.to_excel(writer, sheet_name=worst_rules.__name__.upper().replace("_", " "), index=False)
+            dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        print(stylize(f'{worst_rules.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+        print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
         return dataframe
 
     elif dataframe.empty:
-        print(stylize(f'{worst_rules.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+        print('- ' + sheet_name, stylize('\t | PASS', BOLD_GREEN))
     else:
         print(stylize("Something else happened", BOLD_ORANGE))
 
@@ -320,14 +319,14 @@ def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
         if not crossed.empty:
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-                crossed.to_excel(writer, sheet_name=crossed_rules.__name__.upper().replace("_", " "), index=False)
+                crossed.to_excel(writer, sheet_name=sheet_name, index=False)
 
-            print(stylize(f'{crossed_rules.__name__.upper().replace("_", " ")} \tFINDING', BOLD_RED))
+            print('- ' + sheet_name, stylize(' | FINDING', BOLD_RED))
 
             return crossed
 
         elif crossed.empty:
-            print(stylize(f'{crossed_rules.__name__.upper().replace("_", " ")} \tPASS', BOLD_GREEN))
+            print('- ' + sheet_name, stylize(' | PASS', BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
 
