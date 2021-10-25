@@ -40,6 +40,14 @@ It is always a best practice to run programs in virtualenv, so don't forget to r
 
 The required libraries can be found in the 
 [requirements.txt](https://github.com/akpysec/Firewall_RuleBase_Audit/blob/master/requirements.txt) file.
+
+### Via PIP (UNDER CONSTRUCTION - NOT YET AT PYPI)
+    
+    python -m venv Firewall_RuleBase_Audit/venv
+    source Firewall_RuleBase_Audit/venv/Scripts/activate
+    pip install Firewall_RuleBase_Audit
+    Firewall_RuleBase_Audit --help
+
 ### Via Git
 Make sure you have [Git](https://git-scm.com/downloads) installed 
 

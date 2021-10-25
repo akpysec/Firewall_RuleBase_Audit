@@ -1,0 +1,11 @@
+# PyCharm
+.idea/**
+
+# Vs Code
+.vscode/
+
+# Test files from ./tests folder
+tests/checkpoint_csv/
+tests/fortigate_cli_txt/
+tests/palo_alto_csv/
+tests/tufin_reports_csv/
