@@ -8,4 +8,5 @@
 tests/checkpoint_csv/
 tests/fortigate_cli_txt/
 tests/palo_alto_csv/
-tests/tufin_report_csv/
+tests/tufin_csv/
+
