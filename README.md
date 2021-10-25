@@ -46,8 +46,9 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
     git clone https://github.com/akpysec/Firewall_RuleBase_Audit
     cd Firewall_RuleBase_Audit
     virtualenv -p python3 venv
-    source Firewall_RuleBase_Audit/venv/Scripts/activate
-    pip install -r Firewall_RuleBase_Audit/requirements.txt
+    source venv\Scripts\activate
+    pip install -r requirements.txt
+    cd ..
     python Firewall_RuleBase_Audit --help
 
 ## Usage
