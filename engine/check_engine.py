@@ -32,6 +32,7 @@ BOLD_YELLOW = colored.fg("yellow_3b") + colored.attr("bold")
 
 """ Generic Functions """
 
+
 def printing_to_console(msg: str):
     print(stylize("-" * 26, BOLD_YELLOW))
     print(stylize(msg, BOLD_YELLOW))

@@ -1,4 +1,3 @@
-# Local Project Imports
 from policy_providers import fortigate, tufin
 from engine.check_engine import *
 from engine.cli_flags import args
