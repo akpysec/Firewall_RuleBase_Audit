@@ -10,3 +10,4 @@ tests/fortigate_cli_txt/
 tests/palo_alto_csv/
 tests/tufin_csv/
 
+test.py

@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from engine import check_engine
 from engine.check_engine import FIELDS
+import re
 
 
 def files_reader(path_to_files: str, file_extension: str, encoding_files: str):
@@ -32,10 +33,12 @@ def rule_base_parsing(raw_dataframe: pd.DataFrame):
 
     for i, row in zip(raw_dataframe.index, raw_dataframe[raw_dataframe.columns[0]]):
         enumerated_rules.append([i, row])
-        if row.__contains__('edit'):
+
+        # Depending point - edit
+        if re.search(r"^[^\da-zA-Z]*edit \d+$", row):
             edit.append(i)
         # Depending point - next
-        if row.__contains__('next'):
+        if re.search(r"^[^\da-zA-Z]*next$", row):
             _next.append(i)
 
     increment = 0
@@ -84,24 +87,46 @@ def create_df(rule_base_as_nested_dict: dict):
     df = df.reset_index()
 
     # Renaming columns to fit engine checker
-    df.rename(columns={
-        'index': 'rule number',
-        'set name': 'rule name',
-        'set uuid': 'securetrack rule uid',
-        'set srcintf': 'from zone',
-        'set dstintf': 'to zone',
-        'set srcaddr': 'source',
-        'set dstaddr': 'destination',
-        'set action': 'action',
-        'set status': 'rule status',
-        'set service': 'service',
-        'set logtraffic': 'track',
-        'set application-list': 'application identity',
-        'set groups': 'source user',
-        'set comments': 'comment'
-    },
-        inplace=True)
+    # columns = {
+    #     'index': 'rule number',
+    #     'set name': 'rule name',
+    #     'set uuid': 'securetrack rule uid',
+    #     'set srcintf': 'from zone',
+    #     'set dstintf': 'to zone',
+    #     'set srcaddr': 'source',
+    #     'set dstaddr': 'destination',
+    #     'set action': 'action',
+    #     'set status': 'rule status',
+    #     'set service': 'service',
+    #     'set logtraffic': 'track',
+    #     'set application-list': 'application identity',
+    #     'set groups': 'source user',
+    #     'set comments': 'comment'
+    # }
+    # for k, v, col in zip(columns.keys(), columns.values(), df.columns):
+    #     if col == k:
+    #         print(col)
+    #
+    #         # df = df.rename(columns={k: v}, inplace=True)
+    # print(df.columns)
 
+    df.rename(columns={
+            'index': 'rule number',
+            'set name': 'rule name',
+            'set uuid': 'securetrack rule uid',
+            'set srcintf': 'from zone',
+            'set dstintf': 'to zone',
+            'set srcaddr': 'source',
+            'set dstaddr': 'destination',
+            'set action': 'action',
+            'set status': 'rule status',
+            'set service': 'service',
+            'set logtraffic': 'track',
+            'set application-list': 'application identity',
+            'set groups': 'source user',
+            'set comments': 'comment'
+        },
+            inplace=True)
     # Un-packing values from lists to strings
     df = df.applymap(lambda x: ' '.join(x) if isinstance(x, list) else x)
 
