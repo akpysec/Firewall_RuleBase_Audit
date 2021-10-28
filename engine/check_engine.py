@@ -1,10 +1,8 @@
 import pandas as pd
-import xlsxwriter
 import colored
-from colored import fg, attr, stylize
+from colored import stylize
 import openpyxl
-from openpyxl.workbook import Workbook
-from openpyxl.styles import PatternFill, Font
+from openpyxl.styles import Font
 import datetime
 
 """ Common field Variables """
