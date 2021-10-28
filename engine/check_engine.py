@@ -47,7 +47,7 @@ def convert_to_single_convention(data_series: pd.Series, change_from: str, chang
     return data_series.apply(lambda x: x.replace(change_from, change_to) if isinstance(x, str) else x)
 
 
-def paint_em(file_name, sheet_name, dataframe, column_name):
+def paint_em(file_name: str, sheet_name: str, dataframe: pd.DataFrame, column_name: list):
 
     wb = openpyxl.load_workbook(file_name)
     ws = wb[sheet_name]
@@ -59,11 +59,12 @@ def paint_em(file_name, sheet_name, dataframe, column_name):
                      underline='none',
                      strike=False,
                      color='00FF0000')
+    for col in column_name:
+        sheet_number = dataframe.columns.get_loc(col)
 
-    sheet_number = dataframe.columns.get_loc(column_name)
+        for row in ws.iter_rows(min_row=2):
+            row[sheet_number].font = paint_red
 
-    for row in ws.iter_rows(min_row=2):
-        row[sheet_number].font = paint_red
     wb.save(file_name)
 
 
@@ -82,6 +83,7 @@ def creating_excel_sheet(output_name: str, fw_type: str, policy_file_path: str, 
 
 """ Checks Functions """
 
+
 def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
     if not dataframe.empty:
@@ -96,7 +98,7 @@ def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
                 dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-            paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[6])
+            paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=[FIELDS[6]])
 
             print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
@@ -128,7 +130,7 @@ def track_logs(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
                 dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-            paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[8])
+            paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=[FIELDS[8]])
 
             print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
@@ -167,7 +169,7 @@ def any_src(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
             dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[2])
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=[FIELDS[2]])
 
         print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
@@ -201,7 +203,7 @@ def any_dst(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
             dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[3])
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=[FIELDS[3]])
 
         print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
@@ -235,7 +237,7 @@ def any_srv(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
             dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=FIELDS[4])
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=[FIELDS[4]])
 
         print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
@@ -274,6 +276,11 @@ def worst_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
     if not dataframe.empty:
         with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
             dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
+
+        paint_em(file_name=file_name, sheet_name=sheet_name, dataframe=dataframe, column_name=[
+            FIELDS[2],
+            FIELDS[3],
+            FIELDS[4]])
 
         print('- ' + sheet_name, stylize('\t | FINDING', BOLD_RED))
 
