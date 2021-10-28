@@ -1,8 +1,8 @@
 # PyCharm
 .idea/**
 
-# Vs Code
-.vscode/
+# virtual environment
+venv/
 
 # Test files from ./tests folder
 tests/checkpoint_csv/
