@@ -4,12 +4,18 @@ from engine.cli_flags import args
 
 
 checks = [
-    any_srv, any_dst, any_src, disabled, track_logs, worst_rules, crossed_rules
+    # any_srv,
+    # any_dst,
+    # any_src,
+    # disabled,
+    # track_logs,
+    # worst_rules,
+    crossed_rules
 ]
 
 AUDIT_OUTPUT = 'FW-Audit-Checks.xlsx'
 creating_excel_sheet(
-    output_name=AUDIT_OUTPUT,
+    file_name=AUDIT_OUTPUT,
     fw_type=args.policy_provider,
     policy_file_path=args.path)
 

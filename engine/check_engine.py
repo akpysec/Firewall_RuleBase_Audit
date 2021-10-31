@@ -28,6 +28,24 @@ BOLD_GREEN = colored.fg("green") + colored.attr("bold")
 BOLD_ORANGE = colored.fg("dark_orange_3a") + colored.attr("bold")
 BOLD_YELLOW = colored.fg("yellow_3b") + colored.attr("bold")
 
+colorize = ["black",  # 0
+            "blue",  # 1
+            "brown",  # 2
+            "cyan",  # 3
+            "gray",  # 4
+            "green",  # 5
+            "lime",  # 6
+            "magenta",  # 7
+            "navy",  # 8
+            "orange",  # 9
+            "pink",  # 10
+            "purple",  # 11
+            "red",  # 12
+            "silver",  # 13
+            "white",  # 14
+            "yellow"  # 15
+            ]
+
 """ Generic Functions """
 
 
@@ -45,8 +63,7 @@ def convert_to_single_convention(data_series: pd.Series, change_from: str, chang
     return data_series.apply(lambda x: x.replace(change_from, change_to) if isinstance(x, str) else x)
 
 
-def paint_em(file_name: str, sheet_name: str, dataframe: pd.DataFrame, column_name: list):
-
+def paint_em(file_name: str, sheet_name: str, dataframe: pd.DataFrame, column_name: list, color='00FF0000'):
     wb = openpyxl.load_workbook(file_name)
     ws = wb[sheet_name]
     paint_red = Font(name='Segoe UI',
@@ -56,7 +73,7 @@ def paint_em(file_name: str, sheet_name: str, dataframe: pd.DataFrame, column_na
                      vertAlign=None,
                      underline='none',
                      strike=False,
-                     color='00FF0000')
+                     color=color)
     for col in column_name:
         sheet_number = dataframe.columns.get_loc(col)
 
@@ -66,9 +83,8 @@ def paint_em(file_name: str, sheet_name: str, dataframe: pd.DataFrame, column_na
     wb.save(file_name)
 
 
-def creating_excel_sheet(output_name: str, fw_type: str, policy_file_path: str, sheet_name="Flags"):
-
-    writer = pd.ExcelWriter(output_name, engine='xlsxwriter')
+def creating_excel_sheet(file_name: str, fw_type: str, policy_file_path: str, sheet_name="Flags"):
+    writer = pd.ExcelWriter(file_name, engine='xlsxwriter')
     base_info = {
         'Date': [datetime.datetime.today()],
         'Firewall Type': [fw_type.upper()],
@@ -83,7 +99,6 @@ def creating_excel_sheet(output_name: str, fw_type: str, policy_file_path: str, 
 
 
 def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
-
     if not dataframe.empty:
         dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] == 'disabled')
@@ -114,7 +129,6 @@ def disabled(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
 
 def track_logs(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
-
     if not dataframe.empty:
         dataframe = dataframe.loc[
             (dataframe[FIELDS[6]] != 'disabled') &
@@ -146,10 +160,10 @@ def track_logs(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
 
 def any_src(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
-
     rows_ids = list()
     if not dataframe.empty:
-        for row_id, status, action, source in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[2]]):
+        for row_id, status, action, source in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]],
+                                                  dataframe[FIELDS[2]]):
             if status != 'disabled' and action == 'allow':
                 if isinstance(source, list):
                     if 'any' in source:
@@ -180,10 +194,10 @@ def any_src(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
 
 def any_dst(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
-
     rows_ids = list()
     if not dataframe.empty:
-        for row_id, status, action, destination in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[3]]):
+        for row_id, status, action, destination in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]],
+                                                       dataframe[FIELDS[3]]):
             if status != 'disabled' and action == 'allow':
                 if isinstance(destination, list):
                     if 'any' in destination:
@@ -214,10 +228,10 @@ def any_dst(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
 
 def any_srv(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
-
     rows_ids = list()
     if not dataframe.empty:
-        for row_id, status, action, service in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]], dataframe[FIELDS[4]]):
+        for row_id, status, action, service in zip(dataframe.index, dataframe[FIELDS[6]], dataframe[FIELDS[7]],
+                                                   dataframe[FIELDS[4]]):
             if status != 'disabled' and action == 'allow':
                 if isinstance(service, list):
                     if 'any' in service:
@@ -291,7 +305,6 @@ def worst_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
 
 def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
-
     # Maybe needs reverse - cross check: DO MORE TESTING
     if not dataframe.empty:
         rows_ids = list()
@@ -303,36 +316,65 @@ def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
         # Selecting range of indexes of enabled and allowed rules
         dataframe = dataframe.iloc[rows_ids, 0:]
 
-        crossed = pd.DataFrame(columns=dataframe.columns)
+        src = list(dataframe[FIELDS[2]])
+        dst = list(dataframe[FIELDS[3]])
+        srv = list(dataframe[FIELDS[4]])
+        suid = list(dataframe[FIELDS[9]])
 
-        for i, fz, tz, a, b, c, d in zip(
-                dataframe.index,
-                dataframe.iloc[0:]['from zone'],
-                dataframe.iloc[1:]['to zone'],
-                dataframe.iloc[0:]['source'],
-                dataframe.iloc[1:]['destination'],
-                dataframe.iloc[0:]['service'],
-                dataframe.iloc[1:]['service'],
-        ):
-            src_dst = list(set(a).intersection(set(b)))
+        temp_one = list()
+        temp_two = list()
+        uid_set = set()
 
-            if src_dst and fz == tz:
-                # Service comparing
-                if c == d:
-                    # print(i, a, i + 1, b, c, d)
-                    # print(type(i))
-                    crossed = crossed.append(dataframe.loc[[i, i + 1]])
+        # for r in range(0, len(src)):
+        #     for item_one, src_srv in zip(src[r], srv[r]):
+        #         temp_one.append([item_one, src_srv])
 
-        if not crossed.empty:
+        # Checking if source in destination
+        for r in range(0, len(src)):
+            for item_one in src[r]:
+                temp_one.append(item_one)
+
+        for r in range(0, len(dst)):
+            for t in temp_one:
+                if t in dst[r]:
+                    uid_set.add(suid[r])
+
+        # Checking if destination in source
+        for r in range(0, len(dst)):
+            for item_two in dst[r]:
+                temp_two.append(item_two)
+
+        for r in range(0, len(src)):
+            for t in temp_two:
+                if t in src[r]:
+                    uid_set.add(suid[r])
+
+        print(len(uid_set))
+
+        if not dataframe.empty:
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
-                crossed.to_excel(writer, sheet_name=sheet_name, index=False)
+                dataframe.to_excel(writer, sheet_name=sheet_name, index=False)
+
+            paint_em(file_name=file_name,
+                     sheet_name=sheet_name,
+                     dataframe=dataframe,
+                     column_name=[FIELDS[2]],
+                     color='00FF00FF')
+            paint_em(file_name=file_name,
+                     sheet_name=sheet_name,
+                     dataframe=dataframe,
+                     column_name=[FIELDS[3]],
+                     color='0000FF00')
+            paint_em(file_name=file_name,
+                     sheet_name=sheet_name,
+                     dataframe=dataframe,
+                     column_name=[FIELDS[4]])
 
             print('- ' + sheet_name, stylize(' | FINDING', BOLD_RED))
 
-            return crossed
+            return dataframe
 
-        elif crossed.empty:
+        elif dataframe.empty:
             print('- ' + sheet_name, stylize(' | PASS', BOLD_GREEN))
         else:
             print(stylize("Something else happened", BOLD_ORANGE))
-
