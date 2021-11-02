@@ -51,7 +51,7 @@ The required libraries can be found in the
 
 [comment]: <> (    Firewall_RuleBase_Audit --help)
 
-### Via Git
+### Via Git (Bash)
 Make sure you have [Git](https://git-scm.com/downloads) installed 
 
     git clone https://github.com/akpysec/Firewall_RuleBase_Audit
@@ -59,6 +59,8 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
     source Firewall_RuleBase_Audit/venv/Scripts/activate
     pip install -r Firewall_RuleBase_Audit/requirements.txt
     python Firewall_RuleBase_Audit --help
+
+![Installation](https://user-images.githubusercontent.com/48283299/139966157-b57b4fc0-36cd-4013-9d29-9f82c4bb222f.gif)
 
 ## Usage
 You can view acceptable formats in 
@@ -68,7 +70,10 @@ Rule Base Audit is run through the CLI:
 
     python Firewall_RuleBase_Audit --path {path} --file-extension {txt/csv} --policy-provider {provider}
 
-#### Add HERE GIF - later
+Tufin run:
+![tufin_run](https://user-images.githubusercontent.com/48283299/139966191-4f8d0abb-772e-44c8-a68d-9ce15d562a34.gif)
+Forti run:
+![forti_run](https://user-images.githubusercontent.com/48283299/139966223-4eec4fe6-7a8c-423b-9e6b-896df5a411a7.gif)
 
 Once this has completed, it will generate an .xlsx report including findings:
 
