@@ -4,7 +4,6 @@ from colored import stylize
 import openpyxl
 from openpyxl.styles import Font
 import datetime
-from ordered_set import OrderedSet
 
 """ Common field Variables """
 
@@ -317,33 +316,56 @@ def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
         # Selecting range of indexes of enabled and allowed rules
         dataframe = dataframe.iloc[rows_ids, 0:]
 
-        src = list(dataframe[FIELDS[2]])
-        dst = list(dataframe[FIELDS[3]])
-        srv = list(dataframe[FIELDS[4]])
+        source = list(dataframe[FIELDS[2]])
+        destination = list(dataframe[FIELDS[3]])
+        service = list(dataframe[FIELDS[4]])
         suid = list(dataframe[FIELDS[9]])
 
-        temp_one = list()
-        temp_two = list()
-        uid_set = OrderedSet()
+        temp_one = []
+        temp_two = []
 
-        for r in range(0, len(src)):
-            for item_one, item_two, srv_one in zip(src[r], dst[r], srv[r]):
-                temp_one.append([item_one, srv_one])
-                temp_two.append([item_two, srv_one])
-        for r in range(0, len(src)):
+        uid_set = set()
+
+        # Looping
+        for r in range(0, len(source)):
+            for item_one, item_two, srv in zip(source[r], destination[r], service[r]):
+                temp_one.append([item_one, srv])
+                temp_two.append([item_two, srv])
+
+        for r in range(0, len(source)):
             for o, t in zip(temp_one, temp_two):
-                if o[0] in dst[r]:
-                    if o[1] == t[1]:
-                        print(o[0], o[1], suid[r], dst[r], t[1], suid[r])
-                        uid_set.add(suid[r])
-                if t[0] in src[r]:
-                    if t[1] == o[1]:
-                        uid_set.add(suid[r])
+                # Check if source in destination
+                if o[0] in destination[r]:
+                    for obj in temp_two:
+                        # Comparing objects
+                        if obj[0] == o[0]:
+                            # print(temp_two.index(obj))
+                            # Check if services are equal
+                            if o[1] == temp_two[temp_two.index(obj)][1]:
+                                # print(f"We have a match! Source: {o[0]} | Destination: {temp_two[temp_two.index(obj)]}"
+                                #       f" | Service: {o[1], temp_two[temp_two.index(obj)][1], suid[r]}")
+                                uid_set.add(suid[r])
+                            else:
+                                # print(f"Services are differ | Service: {o[1], temp_two[temp_two.index(obj)][1]}")
+                                pass
+                # Check if destination in source
+                if t[0] in source[r]:
+                    for obj in temp_one:
+                        # Comparing objects
+                        if obj[0] == t[0]:
+                            # print(temp_one.index(obj))
+                            # Check if services are equal
+                            if t[1] == temp_one[temp_one.index(obj)][1]:
+                                # print(f"We have a match! Source: {t[0]} | Destination: {temp_one[temp_one.index(obj)]}"
+                                #       f" | Service: {t[1], temp_one[temp_one.index(obj)][1], suid[r]}")
+                                uid_set.add(suid[r])
+                            else:
+                                # print(f"Services are differ | Service: {t[1], temp_one[temp_one.index(obj)][1]}")
+                                pass
 
-        print(len(uid_set))
-
+        # Something is wrong here... NEEDS a FiX
         dataframe = dataframe.loc[dataframe[FIELDS[9]].isin(uid_set)]
-
+        # print(dataframe[FIELDS[9]])
         # print(dataframe.sort_values(FIELDS[4]))
 
         if not dataframe.empty:

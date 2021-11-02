@@ -4,12 +4,12 @@ from engine.cli_flags import args
 
 
 checks = [
-    # any_srv,
-    # any_dst,
-    # any_src,
-    # disabled,
-    # track_logs,
-    # worst_rules,
+    any_srv,
+    any_dst,
+    any_src,
+    disabled,
+    track_logs,
+    worst_rules,
     crossed_rules
 ]
 

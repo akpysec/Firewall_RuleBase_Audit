@@ -7,7 +7,7 @@
 ## Description
 
 I designed Rule Base Audit to provide a security-oriented view of the IPv4 Rule Base from different vendors and 
-Firewall types (Tufin, FortiGate, Palo-Alto, Checkpoint & More). 
+Firewall types (Tufin, FortiGate - Tested) future Development will support Palo-Alto, Checkpoint & More). 
 Once consultant exported IPV4 policy in .csv or .txt format, all auditing checks may be performed offline.
 
 ### Types of Checks Supported
@@ -35,18 +35,21 @@ Rule Base Audit is written in Python and supports the following versions:
 
 Download & Install [Python](https://www.python.org/downloads/)
 
-It is always a best practice to run programs in virtualenv, so don't forget to run:
+It is always a best practice to run programs in virtualenv, so don't forget to install:
 * pip install virtualenv
 
 The required libraries can be found in the 
 [requirements.txt](https://github.com/akpysec/Firewall_RuleBase_Audit/blob/master/requirements.txt) file.
 
-### Via PIP (UNDER CONSTRUCTION - NOT YET AT PYPI)
+[comment]: <> (### Via PIP &#40;UNDER CONSTRUCTION - NOT YET AT PYPI&#41;)
     
-    python -m venv Firewall_RuleBase_Audit/venv
-    source Firewall_RuleBase_Audit/venv/Scripts/activate
-    pip install Firewall_RuleBase_Audit
-    Firewall_RuleBase_Audit --help
+[comment]: <> (    python -m venv Firewall_RuleBase_Audit/venv)
+
+[comment]: <> (    source Firewall_RuleBase_Audit/venv/Scripts/activate)
+
+[comment]: <> (    pip install Firewall_RuleBase_Audit)
+
+[comment]: <> (    Firewall_RuleBase_Audit --help)
 
 ### Via Git
 Make sure you have [Git](https://git-scm.com/downloads) installed 
@@ -59,8 +62,7 @@ Make sure you have [Git](https://git-scm.com/downloads) installed
 
 ## Usage
 You can view acceptable formats in 
-[./tests](https://github.com/akpysec/Firewall_RuleBase_Audit/tree/master/tests) folder, 
-if yours differs I would like to know!
+[./tests](https://github.com/akpysec/Firewall_RuleBase_Audit/tree/master/tests) folder.
 
 Rule Base Audit is run through the CLI:
 
