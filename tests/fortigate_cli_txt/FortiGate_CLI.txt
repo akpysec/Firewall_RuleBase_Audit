@@ -1,0 +1,142 @@
+FGT-240D-0389-M # show  firewall policy
+config firewall policy
+    edit 1
+        set name "Name 1"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6y
+        set srcintf "Source_INT_1"
+        set dstintf "Source_INT_3"
+        set srcaddr "any"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "HTTP"
+        set logtraffic all
+        set nat enable
+    next
+    edit 2
+        set name "Name 2"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6z
+        set srcintf "Source_INT_3"
+        set dstintf "Source_INT_1"
+        set srcaddr "all"
+        set dstaddr "dst_IP_192.168.150.0/24"
+        set action accept
+        set schedule "always"
+        set service "HTTP"
+        set logtraffic all
+        set nat enable
+    next
+    edit 3
+        set name "Name 3"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6p
+        set srcintf "Source_INT_1"
+        set dstintf "Source_INT_2"
+        set srcaddr "IP_192.168.10.0/24" "IP_192.168.50.0/24"
+        set dstaddr "dst_IP_192.168.150.0/24"
+        set action accept
+        set status disable
+        set schedule "always"
+        set service "PING" "MS-RDP-TCP-3389" "HTTP" "HTTPS"
+        set logtraffic all
+        set fsso disable
+        set nat enable
+    next
+    edit 4
+        set name "Name 4"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6w
+        set srcintf "Source_INT_1"
+        set dstintf "Source_INT_2"
+        set srcaddr "dst_IP_192.168.150.0/24"
+        set dstaddr "all"
+        set action accept
+        set status disable
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+        set fsso disable
+        set nat enable
+    next
+    edit 5
+		set name "Name 5"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6t
+        set srcintf "Source_INT_2"
+        set dstintf "Source_INT_4"
+        set srcaddr "10.10.123.0/24" "192.168.1.0/24"
+        set dstaddr "172.16.0.0/24" "10.12.11.1" "10.12.11.133"
+        set action accept
+        set status disable
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+        set comments "comment_1"
+    next
+    edit 6
+        set name "Name 6"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6u
+        set srcintf "Source_INT_2"
+        set dstintf "Source_INT_4"
+        set srcaddr "192.168.1.24/32" "192.168.22.45/32" "192.168.78.65/32"
+        set dstaddr "10.0.0.0/24"
+        set action accept
+        set schedule "always"
+        set service "HTTP" "HTTPS"
+        set logtraffic all
+        set fsso disable
+        next
+    edit 7
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6o
+        set srcintf "Source_INT_2"
+        set dstintf "Source_INT_4"
+        set srcaddr "test_pc" "test_server"
+        set dstaddr "lan_10.0.65.0/24"
+        set action accept
+        set status disable
+        set schedule "always"
+        set service "MS-RDP-TCP-3389"
+        set logtraffic all
+    next
+    edit 8
+        set name "Name 7"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t6l
+        set srcintf "Source_INT_2"
+        set dstintf "Source_INT_4"
+        set srcaddr "ip_192.168.231.0/24"
+        set dstaddr "8.8.8.8" "4.2.2.2"
+        set action accept
+        set schedule "always"
+        set service "dns_53"
+        set logtraffic all
+        set fsso disable
+        set comments "comment_2"
+        set scan-botnet-connections block
+    next
+    edit 9
+        set name "Name 8"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5w6w
+        set srcintf "Source_INT_3"
+        set dstintf "Source_INT_4"
+        set srcaddr "10.123.123.0/24" "10.223.223.0/24" "terminal_pc"
+        set dstaddr "dmz_89.66.123.4/27"
+        set action accept
+        set status disable
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+        set comments "comment_3"
+        set scan-botnet-connections block
+    next
+    edit 10
+        set name "Name 9"
+        set uuid AAAAAAAA-abcd-123e1-1111-1q2w3e4r5t4e
+        set srcintf "Source_INT_3"
+        set dstintf "Source_INT_4"
+        set srcaddr "192.168.111.0/24"
+        set dstaddr "app_srvs" "admin_pc"
+        set action accept
+        set schedule "always"
+        set service "HTTP" "HTTPS_Over_TCP_433_Sysaid" "HTTP_Over_TCP_81_Sysaid" "HTTPS"
+        set logtraffic all
+        set fsso disable
+        set comments "comment_4"
+    next
+end
