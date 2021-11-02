@@ -4,6 +4,7 @@ from colored import stylize
 import openpyxl
 from openpyxl.styles import Font
 import datetime
+from ordered_set import OrderedSet
 
 """ Common field Variables """
 
@@ -323,33 +324,27 @@ def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
 
         temp_one = list()
         temp_two = list()
-        uid_set = set()
-
-        # for r in range(0, len(src)):
-        #     for item_one, src_srv in zip(src[r], srv[r]):
-        #         temp_one.append([item_one, src_srv])
-
-        # Checking if source in destination
-        for r in range(0, len(src)):
-            for item_one in src[r]:
-                temp_one.append(item_one)
-
-        for r in range(0, len(dst)):
-            for t in temp_one:
-                if t in dst[r]:
-                    uid_set.add(suid[r])
-
-        # Checking if destination in source
-        for r in range(0, len(dst)):
-            for item_two in dst[r]:
-                temp_two.append(item_two)
+        uid_set = OrderedSet()
 
         for r in range(0, len(src)):
-            for t in temp_two:
-                if t in src[r]:
-                    uid_set.add(suid[r])
+            for item_one, item_two, srv_one in zip(src[r], dst[r], srv[r]):
+                temp_one.append([item_one, srv_one])
+                temp_two.append([item_two, srv_one])
+        for r in range(0, len(src)):
+            for o, t in zip(temp_one, temp_two):
+                if o[0] in dst[r]:
+                    if o[1] == t[1]:
+                        print(o[0], o[1], suid[r], dst[r], t[1], suid[r])
+                        uid_set.add(suid[r])
+                if t[0] in src[r]:
+                    if t[1] == o[1]:
+                        uid_set.add(suid[r])
 
         print(len(uid_set))
+
+        dataframe = dataframe.loc[dataframe[FIELDS[9]].isin(uid_set)]
+
+        # print(dataframe.sort_values(FIELDS[4]))
 
         if not dataframe.empty:
             with pd.ExcelWriter(file_name, mode='a', engine='openpyxl') as writer:
