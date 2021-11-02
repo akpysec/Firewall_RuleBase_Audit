@@ -70,10 +70,12 @@ Rule Base Audit is run through the CLI:
 
     python Firewall_RuleBase_Audit --path {path} --file-extension {txt/csv} --policy-provider {provider}
 
-Tufin run:
+#### Tufin run:
+
 ![tufin_run](https://user-images.githubusercontent.com/48283299/139966962-397cb001-97c9-4480-9478-32466514b758.gif)
 
-Forti run:
+#### Forti run:
+
 ![forti_run](https://user-images.githubusercontent.com/48283299/139966971-75856343-ecb2-4a65-b0e6-182750383462.gif)
 
 Once this has completed, it will generate an .xlsx report including findings.
