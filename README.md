@@ -12,7 +12,7 @@ Once consultant exported IPV4 policy in .csv or .txt format, all auditing checks
 
 ### Types of Checks Supported
 
-Currently the following checks are supported:
+Currently, the following checks are supported:
 
 - Broad assignment with object "Any" within Source / Destination / Service fields
 - Disabled rules
