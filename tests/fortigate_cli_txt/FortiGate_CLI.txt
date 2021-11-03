@@ -1,4 +1,4 @@
-FGT-240D-0389-M # show  firewall policy
+FGT # show  firewall policy
 config firewall policy
     edit 1
         set name "Name 1"
