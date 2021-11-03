@@ -7,7 +7,7 @@
 ## Description
 
 I designed Rule Base Audit to provide a security-oriented view of the IPv4 Rule Base from different vendors and 
-Firewall types (Tufin, FortiGate - Tested) future Development will support Palo-Alto, Checkpoint & More). 
+Firewall types (Tufin, FortiGate - Tested) future Development will support Palo-Alto, Checkpoint & More. 
 Once consultant exported IPV4 policy in .csv or .txt format, all auditing checks may be performed offline.
 
 ### Types of Checks Supported
