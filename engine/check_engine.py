@@ -331,7 +331,7 @@ def crossed_rules(dataframe: pd.DataFrame, file_name: str, sheet_name: str):
                     if s in destination[r] and d in source[r]:
                         for s_srv, d_srv in zip(service[source.index(src)], service[destination.index(dst)]):
                             if s_srv in service[destination.index(destination[r])]:
-                                print(f"service match\nSource:{s_srv}\nDestination:{service[destination.index(destination[r])]}")
+                                # print(f"service match\nSource:{s_srv}\nDestination:{service[destination.index(destination[r])]}")
                                 uid_set.add(suid[source.index(src)])
                                 uid_set.add(suid[destination.index(destination[r])])
                                 uid_set.add(suid[destination.index(dst)])
